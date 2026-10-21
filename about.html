@@ -87,7 +87,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -104,23 +103,41 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 
 
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="About the Author">
 <meta property="og:description" content="Gujuri Alekha, Data Scientist &amp; AI / ML Engineer working on machine learning pipelines, time-series forecasting and production MLOps.">
-<meta property="og:image" content="https://gujurialekha.github.io/blog/images/profile.png">
+<meta property="og:image" content="https://gujurialekha.github.io/blog/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
-<meta property="og:image:height" content="600">
-<meta property="og:image:width" content="600">
 <meta name="twitter:title" content="About the Author">
 <meta name="twitter:description" content="Gujuri Alekha, Data Scientist &amp; AI / ML Engineer working on machine learning pipelines, time-series forecasting and production MLOps.">
-<meta name="twitter:image" content="https://gujurialekha.github.io/blog/images/profile.png">
+<meta name="twitter:image" content="https://gujurialekha.github.io/blog/images/profile.jpg">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="600">
-<meta name="twitter:image-width" content="600">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/about.html">
 </head>
 
@@ -883,5 +900,4 @@ Designing intelligent IoT data pipelines, energy demand simulation engines, and 
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

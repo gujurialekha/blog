@@ -1344,6 +1344,9 @@ body.article main.content .follow-card-text { font-size: 14px; line-height: 1.5;
   .btn-ui { min-height: 44px; }
 }
 
+/* Native smooth scrolling for anchor/TOC links (replaces Quarto's smooth-scroll script) */
+html { scroll-behavior: smooth; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     transition-duration: 0ms !important;

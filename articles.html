@@ -118,7 +118,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -135,6 +134,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -183,18 +204,14 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="All articles – Gujuri Alekha">
 <meta property="og:description" content="Every published notebook, newest first. Filter by topic or search by keyword.">
-<meta property="og:image" content="https://gujurialekha.github.io/blog/images/profile.png">
+<meta property="og:image" content="https://gujurialekha.github.io/blog/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
-<meta property="og:image:height" content="600">
-<meta property="og:image:width" content="600">
 <meta name="twitter:title" content="All articles – Gujuri Alekha">
 <meta name="twitter:description" content="Every published notebook, newest first. Filter by topic or search by keyword.">
-<meta name="twitter:image" content="https://gujurialekha.github.io/blog/images/profile.png">
+<meta name="twitter:image" content="https://gujurialekha.github.io/blog/images/profile.jpg">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image-height" content="600">
-<meta name="twitter:image-width" content="600">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/articles.html">
 </head>
 
@@ -483,7 +500,7 @@ window.Quarto = {
     </div>
 </div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="VGltZSUyMFNlcmllcyUyQ0ZpbmFuY2UlMkNTdGF0aXN0aWNzJTJDUHl0aG9u" data-listing-date-sort="1792281600000" data-listing-file-modified-sort="1792558629557" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="495">
+<div class="quarto-post image-right" data-index="0" data-categories="VGltZSUyMFNlcmllcyUyQ0ZpbmFuY2UlMkNTdGF0aXN0aWNzJTJDUHl0aG9u" data-listing-date-sort="1792281600000" data-listing-file-modified-sort="1792593862204" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="489">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./time-series/03-white-noise-and-random-walks.html" class="no-external">White Noise and Random Walks in Time Series Analysis</a>
@@ -511,7 +528,7 @@ Oct 18, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="VGltZSUyMFNlcmllcyUyQ1N0YXRpb25hcml0eSUyQ1B5dGhvbg==" data-listing-date-sort="1791676800000" data-listing-file-modified-sort="1792558629554" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="865">
+<div class="quarto-post image-right" data-index="1" data-categories="VGltZSUyMFNlcmllcyUyQ1N0YXRpb25hcml0eSUyQ1B5dGhvbg==" data-listing-date-sort="1791676800000" data-listing-file-modified-sort="1792593862203" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="859">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./time-series/02-stationarity.html" class="no-external">Stationarity in Time Series Analysis</a>
@@ -537,7 +554,7 @@ Oct 11, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="VGltZSUyMFNlcmllcyUyQ0ZpbmFuY2UlMkNEYXRhJTIwVmlzdWFsaXphdGlvbiUyQ1B5dGhvbg==" data-listing-date-sort="1791072000000" data-listing-file-modified-sort="1792558629540" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="529">
+<div class="quarto-post image-right" data-index="2" data-categories="VGltZSUyMFNlcmllcyUyQ0ZpbmFuY2UlMkNEYXRhJTIwVmlzdWFsaXphdGlvbiUyQ1B5dGhvbg==" data-listing-date-sort="1791072000000" data-listing-file-modified-sort="1792593862195" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="523">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./time-series/01-time-series-analysis.html" class="no-external">Time Series Analysis and Decomposition</a>
@@ -565,7 +582,7 @@ Oct 4, 2026
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="UHl0aG9uJTJDUHl0aG9uJTIwQmFzaWNz" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593470" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="465">
+<div class="quarto-post image-right" data-index="3" data-categories="UHl0aG9uJTJDUHl0aG9uJTIwQmFzaWNz" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="459">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/01-python-basics-variables-and-data-types.html" class="no-external">Python Basics: Variables and Data Types</a>
@@ -589,7 +606,7 @@ Oct 20, 2024
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="UHl0aG9uJTJDQ29udHJvbCUyMEZsb3c=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593471" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="254">
+<div class="quarto-post image-right" data-index="4" data-categories="UHl0aG9uJTJDQ29udHJvbCUyMEZsb3c=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="248">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/02-python-control-flow.html" class="no-external">Python Control Flow: if, elif, else and Loops</a>
@@ -613,7 +630,7 @@ Oct 20, 2024
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="UHl0aG9uJTJDRnVuY3Rpb25z" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593471" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="176">
+<div class="quarto-post image-right" data-index="5" data-categories="UHl0aG9uJTJDRnVuY3Rpb25z" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="170">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/03-python-functions-and-modules.html" class="no-external">Python Functions and Modules</a>
@@ -637,7 +654,7 @@ Oct 20, 2024
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="UHl0aG9uJTJDRGF0YSUyMFN0cnVjdHVyZXM=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593471" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="312">
+<div class="quarto-post image-right" data-index="6" data-categories="UHl0aG9uJTJDRGF0YSUyMFN0cnVjdHVyZXM=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="306">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/04-python-data-structures-and-collections.html" class="no-external">Python Data Structures: Lists, Sets and Comprehensions</a>
@@ -661,7 +678,7 @@ Oct 20, 2024
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="UHl0aG9uJTJDRmlsZSUyMEhhbmRsaW5n" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593471" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="247">
+<div class="quarto-post image-right" data-index="7" data-categories="UHl0aG9uJTJDRmlsZSUyMEhhbmRsaW5n" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="241">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/05-python-file-handling.html" class="no-external">Python File Handling: Reading and Writing Files</a>
@@ -685,7 +702,7 @@ Oct 20, 2024
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="UHl0aG9uJTJDRXhjZXB0aW9ucw==" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593471" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="196">
+<div class="quarto-post image-right" data-index="8" data-categories="UHl0aG9uJTJDRXhjZXB0aW9ucw==" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="190">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/06-python-error-handling-and-exceptions.html" class="no-external">Python Exceptions: try, except and finally</a>
@@ -709,7 +726,7 @@ Oct 20, 2024
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="UHl0aG9uJTJDT09Q" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593471" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="408">
+<div class="quarto-post image-right" data-index="9" data-categories="UHl0aG9uJTJDT09Q" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="402">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/07-python-object-oriented-programming.html" class="no-external">Object-Oriented Programming (OOP) in Python</a>
@@ -733,7 +750,7 @@ Oct 20, 2024
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="UHl0aG9uJTJDUGFuZGFzJTJDRGF0YSUyMFZpc3VhbGl6YXRpb24=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593471" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="308">
+<div class="quarto-post image-right" data-index="10" data-categories="UHl0aG9uJTJDUGFuZGFzJTJDRGF0YSUyMFZpc3VhbGl6YXRpb24=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="302">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/08-python-working-with-data.html" class="no-external">Working with Data in Python: CSV, JSON and Pandas</a>
@@ -759,7 +776,7 @@ Oct 20, 2024
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="UHl0aG9uJTJDV2ViJTIwRGV2ZWxvcG1lbnQlMkNGbGFzaw==" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792558593471" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="302">
+<div class="quarto-post image-right" data-index="11" data-categories="UHl0aG9uJTJDV2ViJTIwRGV2ZWxvcG1lbnQlMkNGbGFzaw==" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="296">
 <div class="body">
 <h3 class="no-anchor listing-title">
 <a href="./python/09-python-web-development.html" class="no-external">Python Web Development: Flask and Django Basics</a>
@@ -1240,5 +1257,4 @@ Oct 20, 2024
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

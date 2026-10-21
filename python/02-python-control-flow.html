@@ -125,7 +125,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -142,6 +141,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 <script type="application/ld+json">
 {"@context": "https://schema.org",
  "@type": "BlogPosting",
@@ -150,7 +171,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
  "datePublished": "2024-10-20",
  "url": "https://gujurialekha.github.io/blog/python/02-python-control-flow.html",
  "mainEntityOfPage": "https://gujurialekha.github.io/blog/python/02-python-control-flow.html",
- "image": "https://gujurialekha.github.io/blog/images/profile.png",
+ "image": "https://gujurialekha.github.io/blog/images/profile.jpg",
  "keywords": "Python, Control Flow",
  "inLanguage": "en-US",
  "author": {"@type": "Person", "@id": "https://gujurialekha.github.io/#person", "name": "Gujuri Alekha", "url": "https://gujurialekha.github.io/"},
@@ -167,12 +188,12 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Python Control Flow: if, elif, else and Loops – Gujuri Alekha">
 <meta property="og:description" content="Learn how Python makes decisions and repeats work with if, elif and else statements, for and while loops, and break and continue.">
-<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:title" content="Python Control Flow: if, elif, else and Loops – Gujuri Alekha">
 <meta name="twitter:description" content="Learn how Python makes decisions and repeats work with if, elif and else statements, for and while loops, and break and continue.">
-<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/python/02-python-control-flow.html">
@@ -571,7 +592,6 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/gujurialekha/blog/blob/main/python/02-python-control-flow.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <ul>
 <li>Python, control flow statements are used to manage the flow of a program’s execution. They allow you to make decisions, loop through code, and modify the program’s behavior based on conditions.</li>
 </ul>
@@ -585,7 +605,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <ul>
 <li>The if statement is used to check a condition. If the condition is true, the code inside the if block is executed.</li>
 </ul>
-<div id="cell-3" class="cell" data-execution_count="1">
+<div id="cell-2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if Statement</span></span>
@@ -603,7 +623,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <ul>
 <li>The elif statement is used to check additional conditions if the previous if or elif conditions are not met. You can have multiple elif blocks.</li>
 </ul>
-<div id="cell-5" class="cell" data-execution_count="2">
+<div id="cell-4" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Else Statement</span></span>
@@ -617,7 +637,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <pre><code>x is positive but not greater than 5</code></pre>
 </div>
 </div>
-<div id="cell-6" class="cell" data-execution_count="3">
+<div id="cell-5" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># else &amp; else</span></span>
@@ -645,7 +665,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <ul>
 <li>It is used to iterate over a sequence (like a list or a range) or any iterable object. The loop executes a specified block of code for each item in the sequence.</li>
 </ul>
-<div id="cell-8" class="cell" data-execution_count="4">
+<div id="cell-7" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># for loop</span></span>
@@ -666,7 +686,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <ul>
 <li>It is used to repeatedly execute a block of code as long as a specified condition is true.</li>
 </ul>
-<div id="cell-10" class="cell" data-execution_count="5">
+<div id="cell-9" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># while loop</span></span>
@@ -683,7 +703,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 4</code></pre>
 </div>
 </div>
-<div id="cell-11" class="cell" data-execution_count="6">
+<div id="cell-10" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iterating Through Data Structures:</span></span>
@@ -705,7 +725,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <section id="break-and-continue-statements" class="level2">
 <h2 class="anchored" data-anchor-id="break-and-continue-statements">2.3 Break and Continue Statements</h2>
 <p><strong>break :</strong> The break statement is used to exit a loop prematurely. It is often used in conjunction with conditional statements to terminate a loop based on a specific condition.</p>
-<div id="cell-13" class="cell" data-execution_count="7">
+<div id="cell-12" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Break statement</span></span>
@@ -723,7 +743,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </div>
 </div>
 <p><strong>continue :</strong> The continue statement is used to skip the current iteration of a loop and move to the next iteration.</p>
-<div id="cell-15" class="cell" data-execution_count="8">
+<div id="cell-14" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># continue statement</span></span>
@@ -1276,5 +1296,4 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

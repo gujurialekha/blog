@@ -125,7 +125,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -142,6 +141,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 <script type="application/ld+json">
 {"@context": "https://schema.org",
  "@type": "BlogPosting",
@@ -150,7 +171,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
  "datePublished": "2024-10-20",
  "url": "https://gujurialekha.github.io/blog/python/05-python-file-handling.html",
  "mainEntityOfPage": "https://gujurialekha.github.io/blog/python/05-python-file-handling.html",
- "image": "https://gujurialekha.github.io/blog/images/profile.png",
+ "image": "https://gujurialekha.github.io/blog/images/profile.jpg",
  "keywords": "Python, File Handling",
  "inLanguage": "en-US",
  "author": {"@type": "Person", "@id": "https://gujurialekha.github.io/#person", "name": "Gujuri Alekha", "url": "https://gujurialekha.github.io/"},
@@ -167,12 +188,12 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Python File Handling: Reading and Writing Files – Gujuri Alekha">
 <meta property="og:description" content="Read and write text files in Python, choose the right file mode, and use the with statement to close files safely.">
-<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:title" content="Python File Handling: Reading and Writing Files – Gujuri Alekha">
 <meta name="twitter:description" content="Read and write text files in Python, choose the right file mode, and use the with statement to close files safely.">
-<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/python/05-python-file-handling.html">
@@ -563,12 +584,11 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/gujurialekha/blog/blob/main/python/05-python-file-handling.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <section id="reading-and-writing-text-files" class="level2">
 <h2 class="anchored" data-anchor-id="reading-and-writing-text-files">5.1 Reading and Writing Text Files</h2>
 <p><strong>Reading Files:</strong> You can read the contents of a text file in Python using the open() function.</p>
 <p><strong>Writing Files:</strong> To write data to a text file, you can open the file in write mode (‘w’) or append mode (‘a’).</p>
-<div id="cell-3" class="cell">
+<div id="cell-2" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">## we open the file named 'example.txt' in read mode ('r') and use the read() method to read its contents into the content</span></span>
@@ -602,7 +622,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <li>The <code>with</code> statement in Python is used for context management, particularly for resources that need to be acquired and released properly, such as files. When you open a file using <code>with</code>, Python ensures that the file is properly closed when you’re done, even if an exception occurs during execution. This helps in avoiding resource leaks.</li>
 <li>When the code inside the <code>with</code> block finishes executing (in this case, reading the file), Python automatically closes the file, ensuring that you don’t have to explicitly call <code>file.close()</code>.</li>
 </ul>
-<div id="cell-5" class="cell">
+<div id="cell-4" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'example.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> <span class="bu">file</span>:</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1144,5 +1164,4 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

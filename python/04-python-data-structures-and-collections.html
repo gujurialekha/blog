@@ -125,7 +125,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -142,6 +141,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 <script type="application/ld+json">
 {"@context": "https://schema.org",
  "@type": "BlogPosting",
@@ -150,7 +171,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
  "datePublished": "2024-10-20",
  "url": "https://gujurialekha.github.io/blog/python/04-python-data-structures-and-collections.html",
  "mainEntityOfPage": "https://gujurialekha.github.io/blog/python/04-python-data-structures-and-collections.html",
- "image": "https://gujurialekha.github.io/blog/images/profile.png",
+ "image": "https://gujurialekha.github.io/blog/images/profile.jpg",
  "keywords": "Python, Data Structures",
  "inLanguage": "en-US",
  "author": {"@type": "Person", "@id": "https://gujurialekha.github.io/#person", "name": "Gujuri Alekha", "url": "https://gujurialekha.github.io/"},
@@ -167,12 +188,12 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Python Data Structures: Lists, Sets and Comprehensions – Gujuri Alekha">
 <meta property="og:description" content="Work with Python lists, tuples, dictionaries, sets and frozensets, write list comprehensions, and sort and search collections.">
-<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:title" content="Python Data Structures: Lists, Sets and Comprehensions – Gujuri Alekha">
 <meta name="twitter:description" content="Work with Python lists, tuples, dictionaries, sets and frozensets, write list comprehensions, and sort and search collections.">
-<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/python/04-python-data-structures-and-collections.html">
@@ -564,7 +585,6 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/gujurialekha/blog/blob/main/python/04-python-data-structures-and-collections.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <section id="working-with-lists-tuples-and-dictionaries" class="level2">
 <h2 class="anchored" data-anchor-id="working-with-lists-tuples-and-dictionaries">4.1 Working with Lists, Tuples, and Dictionaries</h2>
 <ul>
@@ -579,7 +599,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <li>List comprehensions are a concise and elegant way to create lists in Python. They allow you to generate a new list by applying an expression to each item in an existing iterable (e.g., a list, tuple, or range).</li>
 <li>List comprehensions are written inside square brackets <code>[]</code> and typically consist of an expression and a <code>for</code> loop to iterate over the elements of an iterable.</li>
 </ul>
-<div id="cell-3" class="cell" data-execution_count="1">
+<div id="cell-2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>squares <span class="op">=</span> [x<span class="op">**</span><span class="dv">2</span> <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">6</span>)]</span>
@@ -596,7 +616,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <li><strong>Sets:</strong> Sets are unordered collections of unique elements. They do not allow duplicate values. You can perform set operations like union, intersection, and difference.</li>
 <li><strong>Frozensets:</strong> Frozensets are similar to sets but are immutable, meaning you cannot change their elements after creation. They are often used as keys in dictionaries or as elements of other sets.</li>
 </ul>
-<div id="cell-5" class="cell" data-execution_count="2">
+<div id="cell-4" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  creates a set with unique values</span></span>
@@ -619,7 +639,7 @@ my_frozenset : frozenset({1, 2, 3, 4})</code></pre>
 <li><strong>Sorting:</strong> You can sort collections like lists using the <code>sorted()</code> function or by calling the <code>sort()</code> method for lists in-place. You can also specify custom sorting criteria using the <code>key</code> argument.</li>
 <li><strong>Searching:</strong> You can use various methods to search for elements in collections, such as the <code>in</code> keyword to check for membership, and the <code>index()</code> method to find the index of a specific element in a list. For dictionaries, you can use keys to access values efficiently.</li>
 </ul>
-<div id="cell-7" class="cell" data-execution_count="3">
+<div id="cell-6" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>numbers <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">5</span>, <span class="dv">3</span>, <span class="dv">5</span>]</span>
@@ -632,7 +652,7 @@ my_frozenset : frozenset({1, 2, 3, 4})</code></pre>
 <pre><code>{'sorted_numbers : [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]'}</code></pre>
 </div>
 </div>
-<div id="cell-8" class="cell" data-execution_count="4">
+<div id="cell-7" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fruits <span class="op">=</span> [<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>, <span class="st">"date"</span>]  <span class="co"># Create a list</span></span>
@@ -1182,5 +1202,4 @@ index of cheery is {index}</code></pre>
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

@@ -128,7 +128,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -145,6 +144,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -156,7 +177,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
  "datePublished": "2026-10-11",
  "url": "https://gujurialekha.github.io/blog/time-series/02-stationarity.html",
  "mainEntityOfPage": "https://gujurialekha.github.io/blog/time-series/02-stationarity.html",
- "image": "https://gujurialekha.github.io/blog/time-series/02-stationarity_files/figure-html/cell-3-output-1.png",
+ "image": "https://gujurialekha.github.io/blog/images/profile.jpg",
  "keywords": "Time Series, Stationarity, Python",
  "inLanguage": "en-US",
  "author": {"@type": "Person", "@id": "https://gujurialekha.github.io/#person", "name": "Gujuri Alekha", "url": "https://gujurialekha.github.io/"},
@@ -219,7 +240,7 @@ window.Quarto = {
 <meta property="og:image" content="https://gujurialekha.github.io/blog/time-series/02-stationarity_files/figure-html/cell-3-output-1.png">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
-<meta property="og:image:alt" content="A grid comparison of stationary versus non-stationary behaviors exhibiting changing mean, variance, and covariance.">
+<meta property="og:image:alt" content="Chart: 2.1 Types of Stationarity">
 <meta property="og:image:height" content="985">
 <meta property="og:image:width" content="1589">
 <meta name="twitter:title" content="Stationarity in Time Series Analysis – Gujuri Alekha">
@@ -227,7 +248,7 @@ window.Quarto = {
 <meta name="twitter:image" content="https://gujurialekha.github.io/blog/time-series/02-stationarity_files/figure-html/cell-3-output-1.png">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image:alt" content="A grid comparison of stationary versus non-stationary behaviors exhibiting changing mean, variance, and covariance.">
+<meta name="twitter:image:alt" content="Chart: 2.1 Types of Stationarity">
 <meta name="twitter:image-height" content="985">
 <meta name="twitter:image-width" content="1589">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/time-series/02-stationarity.html">
@@ -598,7 +619,6 @@ window.Quarto = {
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/gujurialekha/blog/blob/main/time-series/02-stationarity.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <ul>
 <li><p>A time series is considered stationary when its statistical properties—specifically its mean, variance, and auto-correlation—remain constant over time. It effectively means there is no underlying trend or fluctuating spread (variance) in the data.</p></li>
 <li><p>Most forecasting models, such as ARIMA or SARIMA, assumes that the input data is stationary. By ensuring that statistical properties are consistent, these models can more reliably predict future values based on past observations.</p></li>
@@ -610,7 +630,7 @@ window.Quarto = {
 <li><p><strong>Strict Stationarity</strong>: A time series is strictly stationary when its entire joint probability distribution remains unchanged regardless of the time period, encompassing all properties of weak stationarity.</p></li>
 <li><p><strong>Non-Stationary</strong>: A non-stationary series shows changing patterns like trends or seasonality and often needs transformation before modeling</p></li>
 </ul>
-<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:393}}" data-outputid="8c9143b4-796d-4ddc-b154-84bf45ad5503">
+<div id="cell-2" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load indian stocks nifty50 data</span></span>
@@ -633,8 +653,7 @@ window.Quarto = {
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>nifty_50.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<div id="df-51e0216e-a6c4-4536-abae-4764c875bb5f" class="colab-df-container">
-    <div>
+<div>
 
 
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
@@ -717,89 +736,9 @@ window.Quarto = {
 </table>
 
 </div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-51e0216e-a6c4-4536-abae-4764c875bb5f')" title="Convert this dataframe to an interactive table." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
-  </svg>
-    </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-51e0216e-a6c4-4536-abae-4764c875bb5f button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-51e0216e-a6c4-4536-abae-4764c875bb5f');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-
-
-    </div>
-  </div>
 </div>
 </div>
-<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:412}}" data-outputid="b79371da-a1cd-4a91-ccd4-896233331ac0">
+<div id="cell-3" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -876,7 +815,7 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="02-stationarity_files/figure-html/cell-3-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="02-stationarity_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img" decoding="async"></a></p>
+<p><a href="02-stationarity_files/figure-html/cell-3-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Chart: 2.1 Types of Stationarity"><img src="02-stationarity_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img" decoding="async" alt="Chart: 2.1 Types of Stationarity"></a></p>
 </figure>
 </div>
 </div>
@@ -901,7 +840,7 @@ window.Quarto = {
 <section id="kolmogorov-smirnov-k-s-test" class="level4">
 <h4 class="anchored" data-anchor-id="kolmogorov-smirnov-k-s-test"><strong>Kolmogorov-Smirnov (K-S) Test</strong></h4>
 <p>The Kolmogorov-Smirnov test is specifically used to check for strict stationarity by comparing the cumulative distribution functions (CDFs) of two different samples within the time series. * <strong>Methodology:</strong> It splits the time series into separate sub-samples and compares their distributions. * <strong>Decision Rule:</strong> A high <span class="math inline">p\text{-value}</span> (<span class="math inline">&gt; 0.05</span>) suggests there is no statistically significant difference in distribution between the samples, implying <strong>strict stationarity</strong>.</p>
-<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="09f05fa3-4ea3-42db-c340-20c343097e7b">
+<div id="cell-5" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -937,7 +876,7 @@ Critical Values:
 Conclusion: Fail to reject H₀. The series is likely NON-STATIONARY.</code></pre>
 </div>
 </div>
-<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="20bfc438-3423-405c-d13e-4ed3233db627">
+<div id="cell-6" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> kpss</span>
@@ -974,7 +913,7 @@ Critical Values:
 Conclusion: Reject H₀. The series is likely NON-STATIONARY.</code></pre>
 </div>
 </div>
-<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="db5a26ea-b00c-40bb-87f1-70afcd6746de">
+<div id="cell-7" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> ks_2samp</span>
@@ -1044,7 +983,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <section id="helper-function-for-stationarity-testing" class="level3">
 <h3 class="anchored" data-anchor-id="helper-function-for-stationarity-testing"><strong>3.1 Helper Function for Stationarity Testing</strong></h3>
 <p>We will define a helper function <code>check_stationarity</code> that performs both the Augmented Dickey-Fuller (ADF) and Kwiatkowski-Phillips-Schmidt-Shin (KPSS) tests to make verifying stationarity easy.</p>
-<div id="cell-11" class="cell">
+<div id="cell-10" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller, kpss</span>
@@ -1083,7 +1022,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <section id="technique-1-differencing" class="level3">
 <h3 class="anchored" data-anchor-id="technique-1-differencing"><strong>3.2 Technique 1: Differencing</strong></h3>
 <p>Subtracting past values from current observations to remove trends and seasonality.</p>
-<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:429}}" data-outputid="e0c6b030-43f1-48c4-93b9-9e911350abfa">
+<div id="cell-12" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>close_prices <span class="op">=</span> nifty_50[<span class="st">'Close'</span>].dropna().squeeze()</span>
@@ -1120,7 +1059,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="02-stationarity_files/figure-html/cell-8-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2"><img src="02-stationarity_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img" loading="lazy" decoding="async"></a></p>
+<p><a href="02-stationarity_files/figure-html/cell-8-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Chart: 3.2 Technique 1: Differencing"><img src="02-stationarity_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img" loading="lazy" decoding="async" alt="Chart: 3.2 Technique 1: Differencing"></a></p>
 </figure>
 </div>
 </div>
@@ -1129,7 +1068,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <section id="technique-2-transformations-log-square-root-and-box-cox" class="level3">
 <h3 class="anchored" data-anchor-id="technique-2-transformations-log-square-root-and-box-cox"><strong>3.3 Technique 2: Transformations (Log, Square Root, and Box-Cox)</strong></h3>
 <p>Let’s apply logarithmic, square root, and Box-Cox transformations and check their impact on stationarity.</p>
-<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="3d7870ed-47cc-4622-fec1-78db004515cb">
+<div id="cell-14" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> boxcox</span>
@@ -1170,7 +1109,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <section id="technique-3-detrending" class="level3">
 <h3 class="anchored" data-anchor-id="technique-3-detrending"><strong>3.4 Technique 3: Detrending</strong></h3>
 <p>Removing the long-term trend component using a linear regression model on the time index.</p>
-<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:427}}" data-outputid="86060332-ae6f-4263-f104-30e7b019867a">
+<div id="cell-16" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
@@ -1214,7 +1153,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="02-stationarity_files/figure-html/cell-10-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="02-stationarity_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img" loading="lazy" decoding="async"></a></p>
+<p><a href="02-stationarity_files/figure-html/cell-10-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Chart: 3.4 Technique 3: Detrending"><img src="02-stationarity_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img" loading="lazy" decoding="async" alt="Chart: 3.4 Technique 3: Detrending"></a></p>
 </figure>
 </div>
 </div>
@@ -1223,7 +1162,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <section id="technique-4-seasonal-adjustment" class="level3">
 <h3 class="anchored" data-anchor-id="technique-4-seasonal-adjustment"><strong>3.5 Technique 4: Seasonal Adjustment</strong></h3>
 <p>Subtracting the seasonal component obtained via robust STL decomposition.</p>
-<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:428}}" data-outputid="cd8d6e01-c90a-4845-f4af-4dcfc7b0193b">
+<div id="cell-18" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.tsa.seasonal <span class="im">import</span> STL</span>
@@ -1265,7 +1204,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="02-stationarity_files/figure-html/cell-11-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="02-stationarity_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img" loading="lazy" decoding="async"></a></p>
+<p><a href="02-stationarity_files/figure-html/cell-11-output-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Chart: 3.5 Technique 4: Seasonal Adjustment"><img src="02-stationarity_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img" loading="lazy" decoding="async" alt="Chart: 3.5 Technique 4: Seasonal Adjustment"></a></p>
 </figure>
 </div>
 </div>
@@ -1278,7 +1217,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <section id="visual-check-1-linear-trendline" class="level3">
 <h3 class="anchored" data-anchor-id="visual-check-1-linear-trendline"><strong>3.6.1 Visual Check 1: Linear Trendline</strong></h3>
 <p>We will fit and plot a linear regression trendline directly over the original NIFTY 50 Close prices to check if the long-term mean is constant or changing over time.</p>
-<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:347}}" data-outputid="194d9dda-f302-4fd8-bb66-927cde64ff07">
+<div id="cell-21" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1311,7 +1250,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="02-stationarity_files/figure-html/cell-12-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="02-stationarity_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img" loading="lazy" decoding="async"></a></p>
+<p><a href="02-stationarity_files/figure-html/cell-12-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Chart: 3.6.1 Visual Check 1: Linear Trendline"><img src="02-stationarity_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img" loading="lazy" decoding="async" alt="Chart: 3.6.1 Visual Check 1: Linear Trendline"></a></p>
 </figure>
 </div>
 </div>
@@ -1323,7 +1262,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <section id="visual-check-2-rolling-moving-average-ma-and-variance" class="level3">
 <h3 class="anchored" data-anchor-id="visual-check-2-rolling-moving-average-ma-and-variance"><strong>3.6.2 Visual Check 2: Rolling Moving Average (MA) and Variance</strong></h3>
 <p>We will calculate and plot the 20-day rolling mean alongside the rolling standard deviation bounds to examine whether the local mean and volatility remain stable over time.</p>
-<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:347}}" data-outputid="1e4f2e22-3727-47c0-f70b-6b28f0ffacd5">
+<div id="cell-23" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -1355,7 +1294,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="02-stationarity_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6"><img src="02-stationarity_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img" loading="lazy" decoding="async"></a></p>
+<p><a href="02-stationarity_files/figure-html/cell-13-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Chart: 3.6.2 Visual Check 2: Rolling Moving Average (MA) and Variance"><img src="02-stationarity_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img" loading="lazy" decoding="async" alt="Chart: 3.6.2 Visual Check 2: Rolling Moving Average (MA) and Variance"></a></p>
 </figure>
 </div>
 </div>
@@ -1363,7 +1302,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <pre><code>The moving average varies with time and the volatility band width fluctuates, indicating both unstable mean and variance (Non-Stationary).</code></pre>
 </div>
 </div>
-<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:404}}" data-outputid="c16e984a-c61f-42b6-fdcb-40bb4f48f18c">
+<div id="cell-24" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1409,7 +1348,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="02-stationarity_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="02-stationarity_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img" loading="lazy" decoding="async"></a></p>
+<p><a href="02-stationarity_files/figure-html/cell-14-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Chart: 3.6.2 Visual Check 2: Rolling Moving Average (MA) and Variance"><img src="02-stationarity_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img" loading="lazy" decoding="async" alt="Chart: 3.6.2 Visual Check 2: Rolling Moving Average (MA) and Variance"></a></p>
 </figure>
 </div>
 </div>
@@ -1424,7 +1363,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <section id="visual-check-3-classical-seasonal-decomposition-additive-vs.-multiplicative" class="level3">
 <h3 class="anchored" data-anchor-id="visual-check-3-classical-seasonal-decomposition-additive-vs.-multiplicative"><strong>3.6.3 Visual Check 3: Classical Seasonal Decomposition (Additive vs.&nbsp;Multiplicative)</strong></h3>
 <p>We can decompose the NIFTY 50 Close price to isolate the long-term trend, the cyclical/seasonal fluctuations, and the residual noise to visually determine which parts contribute to the non-stationarity of the series.</p>
-<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:405}}" data-outputid="7e8dd0a4-6c85-4176-83d9-d49c5acd9c92">
+<div id="cell-26" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1473,7 +1412,7 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="02-stationarity_files/figure-html/cell-15-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8"><img src="02-stationarity_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img" loading="lazy" decoding="async"></a></p>
+<p><a href="02-stationarity_files/figure-html/cell-15-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Chart: 3.6.3 Visual Check 3: Classical Seasonal Decomposition (Additive vs.&nbsp;Multiplicative)"><img src="02-stationarity_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img" loading="lazy" decoding="async" alt="Chart: 3.6.3 Visual Check 3: Classical Seasonal Decomposition (Additive vs.&nbsp;Multiplicative)"></a></p>
 </figure>
 </div>
 </div>
@@ -2052,5 +1991,4 @@ Conclusion: Low p-value. Cumulative distributions are significantly different (N
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

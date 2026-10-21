@@ -125,7 +125,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -142,6 +141,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 <script type="application/ld+json">
 {"@context": "https://schema.org",
  "@type": "BlogPosting",
@@ -150,7 +171,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
  "datePublished": "2024-10-20",
  "url": "https://gujurialekha.github.io/blog/python/08-python-working-with-data.html",
  "mainEntityOfPage": "https://gujurialekha.github.io/blog/python/08-python-working-with-data.html",
- "image": "https://gujurialekha.github.io/blog/images/profile.png",
+ "image": "https://gujurialekha.github.io/blog/images/profile.jpg",
  "keywords": "Python, Pandas, Data Visualization",
  "inLanguage": "en-US",
  "author": {"@type": "Person", "@id": "https://gujurialekha.github.io/#person", "name": "Gujuri Alekha", "url": "https://gujurialekha.github.io/"},
@@ -167,12 +188,12 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Working with Data in Python: CSV, JSON and Pandas – Gujuri Alekha">
 <meta property="og:description" content="Read and write CSV, JSON and XML data in Python, manipulate it with pandas, and visualize it with Matplotlib and Seaborn.">
-<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:title" content="Working with Data in Python: CSV, JSON and Pandas – Gujuri Alekha">
 <meta name="twitter:description" content="Read and write CSV, JSON and XML data in Python, manipulate it with pandas, and visualize it with Matplotlib and Seaborn.">
-<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/python/08-python-working-with-data.html">
@@ -564,7 +585,6 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/gujurialekha/blog/blob/main/python/08-python-working-with-data.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <section id="reading-and-writing-data-in-different-formats" class="level2">
 <h2 class="anchored" data-anchor-id="reading-and-writing-data-in-different-formats">8.1 Reading and Writing Data in Different Formats</h2>
 <ul>
@@ -579,7 +599,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <li><strong>Pandas:</strong> Pandas is a powerful library for data manipulation and analysis. It provides two primary data structures, <code>Series</code> and <code>DataFrame</code>, which make it easy to work with structured data. You can perform various operations, such as filtering, sorting, grouping, merging, and reshaping data using Pandas. It’s especially useful for cleaning and transforming data before analysis.</li>
 <li><strong>Example:</strong> You can read a CSV file into a Pandas DataFrame, filter rows based on conditions, compute summary statistics, and perform various data manipulation tasks.</li>
 </ul>
-<div id="cell-3" class="cell">
+<div id="cell-2" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -605,7 +625,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <li><strong>Seaborn:</strong> Seaborn is a data visualization library that is built on top of Matplotlib and provides a high-level interface for creating attractive and informative statistical graphics. It simplifies the process of creating complex plots.</li>
 <li><strong>Example:</strong> You can use Matplotlib or Seaborn to create various types of charts, including line plots, bar charts, scatter plots, histograms, and more.</li>
 </ul>
-<div id="cell-5" class="cell">
+<div id="cell-4" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1162,5 +1182,4 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

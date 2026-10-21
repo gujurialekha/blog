@@ -125,7 +125,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -142,6 +141,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 <script type="application/ld+json">
 {"@context": "https://schema.org",
  "@type": "BlogPosting",
@@ -150,7 +171,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
  "datePublished": "2024-10-20",
  "url": "https://gujurialekha.github.io/blog/python/01-python-basics-variables-and-data-types.html",
  "mainEntityOfPage": "https://gujurialekha.github.io/blog/python/01-python-basics-variables-and-data-types.html",
- "image": "https://gujurialekha.github.io/blog/images/profile.png",
+ "image": "https://gujurialekha.github.io/blog/images/profile.jpg",
  "keywords": "Python, Python Basics",
  "inLanguage": "en-US",
  "author": {"@type": "Person", "@id": "https://gujurialekha.github.io/#person", "name": "Gujuri Alekha", "url": "https://gujurialekha.github.io/"},
@@ -167,12 +188,12 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Python Basics: Variables and Data Types – Gujuri Alekha">
 <meta property="og:description" content="An introduction to Python, its interpreters, and core data types: numbers, strings, lists, tuples, dictionaries and basic operators.">
-<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:title" content="Python Basics: Variables and Data Types – Gujuri Alekha">
 <meta name="twitter:description" content="An introduction to Python, its interpreters, and core data types: numbers, strings, lists, tuples, dictionaries and basic operators.">
-<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/python/01-python-basics-variables-and-data-types.html">
@@ -571,7 +592,6 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/gujurialekha/blog/blob/main/python/01-python-basics-variables-and-data-types.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <section id="what-is-python" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-python">1.1 What is Python?</h2>
 <ul>
@@ -628,7 +648,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <li>Identity operators (is, is not) for comparing object identity</li>
 </ul></li>
 </ul>
-<div id="cell-4" class="cell" data-execution_count="1">
+<div id="cell-3" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numeric types</span></span>
@@ -651,7 +671,7 @@ substring : Hello
 concatenated_str : Hello, Python! Welcome!</code></pre>
 </div>
 </div>
-<div id="cell-5" class="cell" data-execution_count="2">
+<div id="cell-4" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lists, Tuples, and Dictionaries</span></span>
@@ -672,7 +692,7 @@ my_dict : {'name': 'Gujuri Alekha', 'age': 30}
 my_set : {2, 3, 4, 'Gujuri Alekha'}</code></pre>
 </div>
 </div>
-<div id="cell-6" class="cell" data-execution_count="3">
+<div id="cell-5" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Variables, Assignments, and Basic Operators</span></span>
@@ -1230,5 +1250,4 @@ logical_result : True</code></pre>
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

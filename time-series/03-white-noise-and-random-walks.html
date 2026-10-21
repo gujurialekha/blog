@@ -127,7 +127,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -144,6 +143,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
@@ -155,7 +176,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
  "datePublished": "2026-10-18",
  "url": "https://gujurialekha.github.io/blog/time-series/03-white-noise-and-random-walks.html",
  "mainEntityOfPage": "https://gujurialekha.github.io/blog/time-series/03-white-noise-and-random-walks.html",
- "image": "https://gujurialekha.github.io/blog/time-series/03-white-noise-and-random-walks_files/figure-html/cell-2-output-1.png",
+ "image": "https://gujurialekha.github.io/blog/images/profile.jpg",
  "keywords": "Time Series, Finance, Statistics, Python",
  "inLanguage": "en-US",
  "author": {"@type": "Person", "@id": "https://gujurialekha.github.io/#person", "name": "Gujuri Alekha", "url": "https://gujurialekha.github.io/"},
@@ -218,7 +239,7 @@ window.Quarto = {
 <meta property="og:image" content="https://gujurialekha.github.io/blog/time-series/03-white-noise-and-random-walks_files/figure-html/cell-2-output-1.png">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
-<meta property="og:image:alt" content="Multi-panel visualization comparing original close prices and first-order differenced prices with their corresponding ACF and PACF plots.">
+<meta property="og:image:alt" content="Chart: 4.3.1 Implementation: 3-Step Identification (Visual, ACF/PACF, and Ljung-Box Test)">
 <meta property="og:image:height" content="1190">
 <meta property="og:image:width" content="1585">
 <meta name="twitter:title" content="White Noise and Random Walks in Time Series Analysis – Gujuri Alekha">
@@ -226,7 +247,7 @@ window.Quarto = {
 <meta name="twitter:image" content="https://gujurialekha.github.io/blog/time-series/03-white-noise-and-random-walks_files/figure-html/cell-2-output-1.png">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image:alt" content="Multi-panel visualization comparing original close prices and first-order differenced prices with their corresponding ACF and PACF plots.">
+<meta name="twitter:image:alt" content="Chart: 4.3.1 Implementation: 3-Step Identification (Visual, ACF/PACF, and Ljung-Box Test)">
 <meta name="twitter:image-height" content="1190">
 <meta name="twitter:image-width" content="1585">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/time-series/03-white-noise-and-random-walks.html">
@@ -593,7 +614,6 @@ window.Quarto = {
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/gujurialekha/blog/blob/main/time-series/03-white-noise-and-random-walks.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <section id="understanding-white-noise" class="level2">
 <h2 class="anchored" data-anchor-id="understanding-white-noise"><strong>4.1 Understanding White Noise</strong></h2>
 <p><strong>White Noise</strong> is a fundamental concept in time series analysis representing a completely random process. It is characterized by having no systematic patterns, trends, or seasonality, making its future values completely unpredictable from past observations.</p>
@@ -646,7 +666,7 @@ window.Quarto = {
 <section id="implementation-3-step-identification-visual-acfpacf-and-ljung-box-test" class="level3">
 <h3 class="anchored" data-anchor-id="implementation-3-step-identification-visual-acfpacf-and-ljung-box-test"><strong>4.3.1 Implementation: 3-Step Identification (Visual, ACF/PACF, and Ljung-Box Test)</strong></h3>
 <p>Let’s apply all three diagnostic tools side-by-side to verify the statistical behavior of: 1. <strong>The Original Close Prices</strong> (expected to behave as a <strong>Random Walk</strong>). 2. <strong>The First-Order Differenced Prices</strong> (expected to behave as <strong>White Noise</strong>).</p>
-<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:528}}" data-outputid="d526d287-af0a-48fe-a273-f4783997f605">
+<div id="cell-5" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -705,12 +725,12 @@ window.Quarto = {
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><a href="03-white-noise-and-random-walks_files/figure-html/cell-2-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1"><img src="03-white-noise-and-random-walks_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img" decoding="async"></a></p>
+<p><a href="03-white-noise-and-random-walks_files/figure-html/cell-2-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Chart: 4.3.1 Implementation: 3-Step Identification (Visual, ACF/PACF, and Ljung-Box Test)"><img src="03-white-noise-and-random-walks_files/figure-html/cell-2-output-1.png" class="img-fluid figure-img" decoding="async" alt="Chart: 4.3.1 Implementation: 3-Step Identification (Visual, ACF/PACF, and Ljung-Box Test)"></a></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:259}}" data-outputid="f80818a9-ff88-45d2-fcb7-8f806df394a1">
+<div id="cell-6" class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ==========================================</span></span>
@@ -734,8 +754,7 @@ window.Quarto = {
 <pre><code>=== Method 3: Ljung-Box Test on Original Prices ===</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<div id="df-719cfef8-d03e-4772-b192-e8000ce87141" class="colab-df-container">
-    <div>
+<div>
 
 
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
@@ -756,138 +775,6 @@ window.Quarto = {
 </table>
 
 </div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-719cfef8-d03e-4772-b192-e8000ce87141')" title="Convert this dataframe to an interactive table." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
-  </svg>
-    </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-719cfef8-d03e-4772-b192-e8000ce87141 button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-719cfef8-d03e-4772-b192-e8000ce87141');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-
-
-  <div id="id_5035edf7-1c8e-4260-af5a-6c4668316d8b">
-    <style>
-      .colab-df-generate {
-        background-color: #E8F0FE;
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-        display: none;
-        fill: #1967D2;
-        height: 32px;
-        padding: 0 0 0 0;
-        width: 32px;
-      }
-
-      .colab-df-generate:hover {
-        background-color: #E2EBFA;
-        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-        fill: #174EA6;
-      }
-
-      [theme=dark] .colab-df-generate {
-        background-color: #3B4455;
-        fill: #D2E3FC;
-      }
-
-      [theme=dark] .colab-df-generate:hover {
-        background-color: #434B5C;
-        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-        fill: #FFFFFF;
-      }
-    </style>
-    <button class="colab-df-generate" onclick="generateWithVariable('ljung_orig')" title="Generate code using this dataframe." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
-    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"></path>
-  </svg>
-    </button>
-    <script>
-      (() => {
-      const buttonEl =
-        document.querySelector('#id_5035edf7-1c8e-4260-af5a-6c4668316d8b button.colab-df-generate');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      buttonEl.onclick = () => {
-        google.colab.notebook.generateWithVariable('ljung_orig');
-      }
-      })();
-    </script>
-  </div>
-
-    </div>
-  </div>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Verdict: p-value = 0.0000e+00. Significant autocorrelation present (Reject H0 -&gt; Random Walk / Non-Stationary).
@@ -895,8 +782,7 @@ window.Quarto = {
 === Method 3: Ljung-Box Test on 1st-Order Differenced Prices ===</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<div id="df-27960123-cb53-42fe-a7fd-e7a370280f81" class="colab-df-container">
-    <div>
+<div>
 
 
 <table class="dataframe caption-top table table-sm table-striped small" data-border="1">
@@ -917,138 +803,6 @@ window.Quarto = {
 </table>
 
 </div>
-    <div class="colab-df-buttons">
-
-  <div class="colab-df-container">
-    <button class="colab-df-convert" onclick="convertToInteractive('df-27960123-cb53-42fe-a7fd-e7a370280f81')" title="Convert this dataframe to an interactive table." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
-    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
-  </svg>
-    </button>
-
-  <style>
-    .colab-df-container {
-      display:flex;
-      gap: 12px;
-    }
-
-    .colab-df-convert {
-      background-color: #E8F0FE;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: none;
-      fill: #1967D2;
-      height: 32px;
-      padding: 0 0 0 0;
-      width: 32px;
-    }
-
-    .colab-df-convert:hover {
-      background-color: #E2EBFA;
-      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-      fill: #174EA6;
-    }
-
-    .colab-df-buttons div {
-      margin-bottom: 4px;
-    }
-
-    [theme=dark] .colab-df-convert {
-      background-color: #3B4455;
-      fill: #D2E3FC;
-    }
-
-    [theme=dark] .colab-df-convert:hover {
-      background-color: #434B5C;
-      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-      fill: #FFFFFF;
-    }
-  </style>
-
-    <script>
-      const buttonEl =
-        document.querySelector('#df-27960123-cb53-42fe-a7fd-e7a370280f81 button.colab-df-convert');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      async function convertToInteractive(key) {
-        const element = document.querySelector('#df-27960123-cb53-42fe-a7fd-e7a370280f81');
-        const dataTable =
-          await google.colab.kernel.invokeFunction('convertToInteractive',
-                                                    [key], {});
-        if (!dataTable) return;
-
-        const docLinkHtml = 'Like what you see? Visit the ' +
-          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
-          + ' to learn more about interactive tables.';
-        element.innerHTML = '';
-        dataTable['output_type'] = 'display_data';
-        await google.colab.output.renderOutput(dataTable, element);
-        const docLink = document.createElement('div');
-        docLink.innerHTML = docLinkHtml;
-        element.appendChild(docLink);
-      }
-    </script>
-  </div>
-
-
-  <div id="id_3e600bb5-8f2b-4999-a67d-9524278909b7">
-    <style>
-      .colab-df-generate {
-        background-color: #E8F0FE;
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-        display: none;
-        fill: #1967D2;
-        height: 32px;
-        padding: 0 0 0 0;
-        width: 32px;
-      }
-
-      .colab-df-generate:hover {
-        background-color: #E2EBFA;
-        box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
-        fill: #174EA6;
-      }
-
-      [theme=dark] .colab-df-generate {
-        background-color: #3B4455;
-        fill: #D2E3FC;
-      }
-
-      [theme=dark] .colab-df-generate:hover {
-        background-color: #434B5C;
-        box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-        filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
-        fill: #FFFFFF;
-      }
-    </style>
-    <button class="colab-df-generate" onclick="generateWithVariable('ljung_diff')" title="Generate code using this dataframe." style="display:none;">
-
-  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
-    <path d="M7,19H8.4L18.45,9,17,7.55,7,17.6ZM5,21V16.75L18.45,3.32a2,2,0,0,1,2.83,0l1.4,1.43a1.91,1.91,0,0,1,.58,1.4,1.91,1.91,0,0,1-.58,1.4L9.25,21ZM18.45,9,17,7.55Zm-12,3A5.31,5.31,0,0,0,4.9,8.1,5.31,5.31,0,0,0,1,6.5,5.31,5.31,0,0,0,4.9,4.9,5.31,5.31,0,0,0,6.5,1,5.31,5.31,0,0,0,8.1,4.9,5.31,5.31,0,0,0,12,6.5,5.46,5.46,0,0,0,6.5,12Z"></path>
-  </svg>
-    </button>
-    <script>
-      (() => {
-      const buttonEl =
-        document.querySelector('#id_3e600bb5-8f2b-4999-a67d-9524278909b7 button.colab-df-generate');
-      buttonEl.style.display =
-        google.colab.kernel.accessAllowed ? 'block' : 'none';
-
-      buttonEl.onclick = () => {
-        google.colab.notebook.generateWithVariable('ljung_diff');
-      }
-      })();
-    </script>
-  </div>
-
-    </div>
-  </div>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Verdict: p-value = 0.2090. No significant autocorrelation (Fail to reject H0 -&gt; White Noise / Stationary).</code></pre>
@@ -1621,5 +1375,4 @@ window.Quarto = {
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

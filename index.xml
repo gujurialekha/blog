@@ -10,11 +10,9 @@
 <atom:link href="https://gujurialekha.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Hands-on AI, data science and machine learning tutorials in Python: runnable notebooks on time series, statistics and ML, step by step.</description>
 <image>
-<url>https://gujurialekha.github.io/blog/images/profile.png</url>
+<url>https://gujurialekha.github.io/blog/images/profile.jpg</url>
 <title>Gujuri Alekha</title>
 <link>https://gujurialekha.github.io/blog/</link>
-<height>144</height>
-<width>144</width>
 </image>
 <generator>quarto-1.10.19</generator>
 <lastBuildDate>Sun, 18 Oct 2026 00:00:00 GMT</lastBuildDate>

@@ -125,7 +125,6 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </script>
-<style>html{ scroll-behavior: smooth; }</style>
 <!-- Fonts (DESIGN.md › Typography): Inter for UI/headings, Source Serif 4 for article prose, JetBrains Mono for code/meta -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -142,6 +141,28 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="icon" type="image/png" href="https://gujurialekha.github.io/favicon-192.png" sizes="192x192">
 <link rel="icon" type="image/svg+xml" href="https://gujurialekha.github.io/favicon.svg">
 <link rel="apple-touch-icon" href="https://gujurialekha.github.io/apple-touch-icon.png">
+<!-- GoatCounter: same site code as the portfolio, so the footer total counts portfolio + blog visitors -->
+<script data-goatcounter="https://gujurialekha.goatcounter.com/count" async="" src="https://gc.zgo.at/count.js"></script>
+<script>
+  addEventListener('DOMContentLoaded', function () {
+    // Copyright year in the footer (_quarto.yml can't compute it), so it never goes stale
+    document.querySelectorAll('.nav-footer-left p').forEach(function (p) {
+      p.textContent = p.textContent.replace(/© \d{4}/, '© ' + new Date().getFullYear());
+    });
+    // Footer visitor total; stays hidden if the public counter is off, blocked or down
+    fetch('https://gujurialekha.goatcounter.com/counter/TOTAL.json')
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        var left = document.querySelector('.nav-footer-left');
+        if (!d || !d.count || d.count === '0' || !left) return;
+        var p = document.createElement('p');
+        p.className = 'visitor-count';
+        p.textContent = d.count + ' visitors';
+        left.appendChild(p);
+      })
+      .catch(function () {});
+  });
+</script>
 <script type="application/ld+json">
 {"@context": "https://schema.org",
  "@type": "BlogPosting",
@@ -150,7 +171,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
  "datePublished": "2024-10-20",
  "url": "https://gujurialekha.github.io/blog/python/07-python-object-oriented-programming.html",
  "mainEntityOfPage": "https://gujurialekha.github.io/blog/python/07-python-object-oriented-programming.html",
- "image": "https://gujurialekha.github.io/blog/images/profile.png",
+ "image": "https://gujurialekha.github.io/blog/images/profile.jpg",
  "keywords": "Python, OOP",
  "inLanguage": "en-US",
  "author": {"@type": "Person", "@id": "https://gujurialekha.github.io/#person", "name": "Gujuri Alekha", "url": "https://gujurialekha.github.io/"},
@@ -167,12 +188,12 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Object-Oriented Programming (OOP) in Python – Gujuri Alekha">
 <meta property="og:description" content="Learn classes and objects, inheritance, polymorphism, encapsulation, and method overriding and overloading in Python.">
-<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta property="og:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:title" content="Object-Oriented Programming (OOP) in Python – Gujuri Alekha">
 <meta name="twitter:description" content="Learn classes and objects, inheritance, polymorphism, encapsulation, and method overriding and overloading in Python.">
-<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.png">
+<meta name="twitter:image" content="https://gujurialekha.github.io/blog/python/images/profile.jpg">
 <meta name="twitter:creator" content="@Alekha81293434">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://gujurialekha.github.io/blog/python/07-python-object-oriented-programming.html">
@@ -564,7 +585,6 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 </header>
 
 
-<p><a href="https://colab.research.google.com/github/gujurialekha/blog/blob/main/python/07-python-object-oriented-programming.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <p><strong>Object-Oriented Programming (OOP) is a programming paradigm that revolves around the concept of objects. In Python, everything is an object, and OOP principles are used to model real-world entities and their interactions in a more organized and maintainable way.</strong></p>
 <section id="classes-and-objects" class="level2">
 <h2 class="anchored" data-anchor-id="classes-and-objects">7.1 Classes and Objects</h2>
@@ -572,7 +592,7 @@ gtag('config', 'G-X9RX470F8T', { 'anonymize_ip': true});
 <li><strong>Class:</strong> A class is a blueprint or template for creating objects. It defines the attributes (data members) and methods (functions) that objects of that class will have. Classes help organize and structure code by grouping related data and behavior.</li>
 <li><strong>Object:</strong> An object is an instance of a class. It is a concrete instantiation of the class, and it has its own set of attributes and can perform actions defined by the class methods.</li>
 </ul>
-<div id="cell-3" class="cell" data-execution_count="1">
+<div id="cell-2" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># define  a class</span></span>
@@ -603,7 +623,7 @@ Charlie says Woof!</code></pre>
 <li><strong>Inheritance:</strong> Inheritance is a mechanism that allows you to create a new class (subclass or derived class) based on an existing class (base class or parent class). The subclass inherits attributes and methods from the base class, which promotes code reuse and allows you to extend or modify the behavior of the base class.</li>
 <li><strong>Polymorphism:</strong> Polymorphism means that objects of different classes can be treated as objects of a common base class. It allows you to use a single interface to represent different types of objects. Polymorphism is often achieved through method overriding and overloading.</li>
 </ul>
-<div id="cell-5" class="cell" data-execution_count="2">
+<div id="cell-4" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Animal:</span>
@@ -639,7 +659,7 @@ Meow!</code></pre>
 <li><strong>Encapsulation:</strong> Encapsulation is the practice of bundling the data (attributes) and methods (functions) that operate on the data within a single unit, i.e., the class. It restricts access to some of the object’s components, making them private and only accessible through well-defined interfaces (getters and setters).</li>
 <li><strong>Data Hiding:</strong> Data hiding is a specific aspect of encapsulation where you hide the implementation details of an object’s attributes from the outside world. In Python, you can use underscores to indicate private attributes and methods (e.g., <code>_private_var</code>).</li>
 </ul>
-<div id="cell-7" class="cell" data-execution_count="3">
+<div id="cell-6" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> BankAccount:</span>
@@ -673,7 +693,7 @@ Meow!</code></pre>
 <li><strong>Method Overriding:</strong> Method overriding allows a subclass to provide a specific implementation for a method that is already defined in its superclass. This enables the subclass to change or extend the behavior of the inherited method.</li>
 <li><strong>Method Overloading (Not Explicitly Supported in Python):</strong> Python does not support method overloading in the traditional sense as some other languages do (e.g., Java). In Python, you can define multiple methods with the same name in a class, but only the latest one defined will be used. However, you can achieve similar behavior by using default arguments and variable-length argument lists.</li>
 </ul>
-<div id="cell-9" class="cell" data-execution_count="4">
+<div id="cell-8" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Animal:</span>
@@ -691,7 +711,7 @@ Meow!</code></pre>
 <pre><code>Woof!</code></pre>
 </div>
 </div>
-<div id="cell-10" class="cell" data-execution_count="5">
+<div id="cell-9" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Calculator:</span>
@@ -1244,5 +1264,4 @@ Meow!</code></pre>
 
 
 
-<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
