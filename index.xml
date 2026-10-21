@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Gujuri Alekha</title>
+<link>https://gujurialekha.github.io/blog/</link>
+<atom:link href="https://gujurialekha.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
+<description>Hands-on AI, data science and machine learning tutorials in Python: runnable notebooks on time series, statistics and ML, step by step.</description>
+<image>
+<url>https://gujurialekha.github.io/blog/images/profile.png</url>
+<title>Gujuri Alekha</title>
+<link>https://gujurialekha.github.io/blog/</link>
+<height>144</height>
+<width>144</width>
+</image>
+<generator>quarto-1.10.19</generator>
+<lastBuildDate>Sun, 18 Oct 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>White Noise and Random Walks in Time Series Analysis</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/time-series/03-white-noise-and-random-walks.html</link>
+  <description><![CDATA[ Learn how to identify White Noise and Random Walk processes in financial time series using visual, ACF/PACF, and Ljung-Box test diagnostics. ]]></description>
+  <category>Time Series</category>
+  <category>Finance</category>
+  <category>Statistics</category>
+  <category>Python</category>
+  <guid>https://gujurialekha.github.io/blog/time-series/03-white-noise-and-random-walks.html</guid>
+  <pubDate>Sun, 18 Oct 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Stationarity in Time Series Analysis</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/time-series/02-stationarity.html</link>
+  <description><![CDATA[ Learn how to detect non-stationarity in time series using statistical tests and apply techniques like differencing, transformations, and detrending to achieve stationarity. ]]></description>
+  <category>Time Series</category>
+  <category>Stationarity</category>
+  <category>Python</category>
+  <guid>https://gujurialekha.github.io/blog/time-series/02-stationarity.html</guid>
+  <pubDate>Sun, 11 Oct 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Time Series Analysis and Decomposition</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/time-series/01-time-series-analysis.html</link>
+  <description><![CDATA[ Learn the fundamentals of time series forecasting, additive vs. multiplicative models, and robust STL decomposition using NIFTY 50 data. ]]></description>
+  <category>Time Series</category>
+  <category>Finance</category>
+  <category>Data Visualization</category>
+  <category>Python</category>
+  <guid>https://gujurialekha.github.io/blog/time-series/01-time-series-analysis.html</guid>
+  <pubDate>Sun, 04 Oct 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Python Basics: Variables and Data Types</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/01-python-basics-variables-and-data-types.html</link>
+  <description><![CDATA[ An introduction to Python, its interpreters, and core data types: numbers, strings, lists, tuples, dictionaries and basic operators. ]]></description>
+  <category>Python</category>
+  <category>Python Basics</category>
+  <guid>https://gujurialekha.github.io/blog/python/01-python-basics-variables-and-data-types.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Python Control Flow: if, elif, else and Loops</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/02-python-control-flow.html</link>
+  <description><![CDATA[ Learn how Python makes decisions and repeats work with if, elif and else statements, for and while loops, and break and continue. ]]></description>
+  <category>Python</category>
+  <category>Control Flow</category>
+  <guid>https://gujurialekha.github.io/blog/python/02-python-control-flow.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Python Functions and Modules</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/03-python-functions-and-modules.html</link>
+  <description><![CDATA[ Define and call Python functions, pass arguments, return values, and import modules and libraries such as math. ]]></description>
+  <category>Python</category>
+  <category>Functions</category>
+  <guid>https://gujurialekha.github.io/blog/python/03-python-functions-and-modules.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Python Data Structures: Lists, Sets and Comprehensions</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/04-python-data-structures-and-collections.html</link>
+  <description><![CDATA[ Work with Python lists, tuples, dictionaries, sets and frozensets, write list comprehensions, and sort and search collections. ]]></description>
+  <category>Python</category>
+  <category>Data Structures</category>
+  <guid>https://gujurialekha.github.io/blog/python/04-python-data-structures-and-collections.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Python File Handling: Reading and Writing Files</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/05-python-file-handling.html</link>
+  <description><![CDATA[ Read and write text files in Python, choose the right file mode, and use the with statement to close files safely. ]]></description>
+  <category>Python</category>
+  <category>File Handling</category>
+  <guid>https://gujurialekha.github.io/blog/python/05-python-file-handling.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Python Exceptions: try, except and finally</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/06-python-error-handling-and-exceptions.html</link>
+  <description><![CDATA[ Handle errors in Python with try, except and finally, raise custom exceptions, and understand the exception class hierarchy. ]]></description>
+  <category>Python</category>
+  <category>Exceptions</category>
+  <guid>https://gujurialekha.github.io/blog/python/06-python-error-handling-and-exceptions.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Object-Oriented Programming (OOP) in Python</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/07-python-object-oriented-programming.html</link>
+  <description><![CDATA[ Learn classes and objects, inheritance, polymorphism, encapsulation, and method overriding and overloading in Python. ]]></description>
+  <category>Python</category>
+  <category>OOP</category>
+  <guid>https://gujurialekha.github.io/blog/python/07-python-object-oriented-programming.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Working with Data in Python: CSV, JSON and Pandas</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/08-python-working-with-data.html</link>
+  <description><![CDATA[ Read and write CSV, JSON and XML data in Python, manipulate it with pandas, and visualize it with Matplotlib and Seaborn. ]]></description>
+  <category>Python</category>
+  <category>Pandas</category>
+  <category>Data Visualization</category>
+  <guid>https://gujurialekha.github.io/blog/python/08-python-working-with-data.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Python Web Development: Flask and Django Basics</title>
+  <dc:creator>Gujuri Alekha</dc:creator>
+  <link>https://gujurialekha.github.io/blog/python/09-python-web-development.html</link>
+  <description><![CDATA[ An introduction to Python web frameworks Flask and Django: routing, templates, databases, and HTTP requests and responses. ]]></description>
+  <category>Python</category>
+  <category>Web Development</category>
+  <category>Flask</category>
+  <guid>https://gujurialekha.github.io/blog/python/09-python-web-development.html</guid>
+  <pubDate>Sun, 20 Oct 2024 00:00:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

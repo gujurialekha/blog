@@ -1,0 +1,513 @@
+[
+  {
+    "objectID": "time-series/03-white-noise-and-random-walks.html#understanding-white-noise",
+    "href": "time-series/03-white-noise-and-random-walks.html#understanding-white-noise",
+    "title": "White Noise and Random Walks in Time Series Analysis",
+    "section": "4.1 Understanding White Noise",
+    "text": "4.1 Understanding White Noise\nWhite Noise is a fundamental concept in time series analysis representing a completely random process. It is characterized by having no systematic patterns, trends, or seasonality, making its future values completely unpredictable from past observations.\n\n4.1.1 Mathematical Properties of White Noise:\n\nConstant Mean: The expected value of the series is constant over time (usually zero). \\mu_t = E[Y_t] = C\nConstant Variance: The volatility (spread) of the series remains stable and does not expand or shrink. \\sigma^2_t = \\text{Var}(Y_t) = \\sigma^2\nZero Autocorrelation: There is no correlation between observations at any non-zero lags. Each value is completely independent of past values. \\text{Corr}(Y_t, Y_{t-k}) = 0 \\quad \\text{for } k \\neq 0",
+    "crumbs": [
+      "Time Series Track",
+      "White Noise and Random Walks in Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "time-series/03-white-noise-and-random-walks.html#understanding-random-walk",
+    "href": "time-series/03-white-noise-and-random-walks.html#understanding-random-walk",
+    "title": "White Noise and Random Walks in Time Series Analysis",
+    "section": "4.2 Understanding Random Walk",
+    "text": "4.2 Understanding Random Walk\nA Random Walk is a time series in which the current value is equal to the previous value plus a random, unpredictable error term. Because these random changes accumulate over time, the series exhibits a strong cumulative, non-stationary pattern.\n\n4.2.1 Mathematical Formula\nY_t = Y_{t-1} + \\epsilon_t\nWhere: * Y_t: Current value at time t * Y_{t-1}: Previous value at time t-1 * \\epsilon_t: Random error term (representing White Noise with mean 0 and variance \\sigma^2)\n\n\n4.2.2 Properties of a Random Walk\n\nNon-Constant Mean & Variance: The variance increases linearly with time (Var(Y_t) = t \\sigma^2), which causes the series to drift further away from its starting point over time.\nStrong Autocorrelation: The current value is highly dependent on its immediate past values, yielding an ACF that decays extremely slowly.\nUnit Root: The coefficient of Y_{t-1} is exactly 1, making the series non-stationary unless first-order differencing is applied (which yields stationary white noise: \\Delta Y_t = Y_t - Y_{t-1} = \\epsilon_t).",
+    "crumbs": [
+      "Time Series Track",
+      "White Noise and Random Walks in Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "time-series/03-white-noise-and-random-walks.html#methods-for-identification-of-white-noise-or-random-walk",
+    "href": "time-series/03-white-noise-and-random-walks.html#methods-for-identification-of-white-noise-or-random-walk",
+    "title": "White Noise and Random Walks in Time Series Analysis",
+    "section": "4.3 Methods for Identification of White Noise or Random Walk",
+    "text": "4.3 Methods for Identification of White Noise or Random Walk\nThere are three primary methods used to identify whether a time series is White Noise or a Random Walk:\n\nVisually Checking the Series\n\nPlotting the raw values over time to inspect if the series exhibits structural trends, shifting averages, or changing variance (indicating a Random Walk), or looks like completely random, stable fluctuations (indicating White Noise).\n\nACF & PACF Plots (Autocorrelation & Partial Autocorrelation)\n\nWhite Noise: Autocorrelations at all non-zero lags are near zero and fall within confidence intervals.\nRandom Walk: The ACF decays extremely slowly (near 1.0 for initial lags), while the PACF has a single dominant spike at lag 1.\n\nLjung-Box Test for Autocorrelation\n\nA formal statistical test to determine whether autocorrelation exists across multiple lags simultaneously.\nH_0 (Null Hypothesis): The data values are independently distributed (no autocorrelation / White Noise).\nH_1 (Alternative Hypothesis): The data values exhibit serial correlation (autocorrelated / not White Noise).\n\n\n\n4.3.1 Implementation: 3-Step Identification (Visual, ACF/PACF, and Ljung-Box Test)\nLet’s apply all three diagnostic tools side-by-side to verify the statistical behavior of: 1. The Original Close Prices (expected to behave as a Random Walk). 2. The First-Order Differenced Prices (expected to behave as White Noise).\n\n\nShow code\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\nimport statsmodels.api as sm\nfrom statsmodels.stats.diagnostic import acorr_ljungbox\n\n# Prepare data\nclose_prices = nifty_50['Close'].dropna()\ndiff_prices = close_prices.diff().dropna()\n\n# Set up a multi-panel visualization comparing Original vs. Differenced Series\nfig, axes = plt.subplots(3, 2, figsize=(16, 12))\n\n# ==========================================\n# METHOD 1: VISUAL CHECK\n# ==========================================\n# Original Prices Plot\naxes[0, 0].plot(close_prices, color='royalblue')\naxes[0, 0].set_title(\"Method 1 (Visual): Original Close Price (Strong Trend/Walk)\", fontsize=11, fontweight='bold')\naxes[0, 0].grid(True)\n\n# Differenced Prices Plot\naxes[0, 1].plot(diff_prices, color='purple')\naxes[0, 1].axhline(y=0, color='black', linestyle='--')\naxes[0, 1].set_title(\"Method 1 (Visual): 1st-Order Differenced Price (Fluctuates Around 0)\", fontsize=11, fontweight='bold')\naxes[0, 1].grid(True)\n\n# ==========================================\n# METHOD 2: ACF & PACF PLOTS\n# ==========================================\n# Original Prices ACF\nsm.graphics.tsa.plot_acf(close_prices, lags=30, ax=axes[1, 0], color='royalblue', vlines_kwargs={\"colors\": 'royalblue'})\naxes[1, 0].set_title(\"Method 2: ACF of Original Prices (Slow Linear Decay)\", fontsize=11, fontweight='bold')\naxes[1, 0].grid(True)\n\n# Differenced Prices ACF\nsm.graphics.tsa.plot_acf(diff_prices, lags=30, ax=axes[1, 1], color='purple', vlines_kwargs={\"colors\": 'purple'})\naxes[1, 1].set_title(\"Method 2: ACF of Differenced Prices (Uncorrelated/White Noise)\", fontsize=11, fontweight='bold')\naxes[1, 1].grid(True)\n\n# Original Prices PACF\nsm.graphics.tsa.plot_pacf(close_prices, lags=30, ax=axes[2, 0], color='royalblue', vlines_kwargs={\"colors\": 'royalblue'})\naxes[2, 0].set_title(\"Method 2: PACF of Original Prices (Spike at Lag 1)\", fontsize=11, fontweight='bold')\naxes[2, 0].grid(True)\n\n# Differenced Prices PACF\nsm.graphics.tsa.plot_pacf(diff_prices, lags=30, ax=axes[2, 1], color='purple', vlines_kwargs={\"colors\": 'purple'})\naxes[2, 1].set_title(\"Method 2: PACF of Differenced Prices (No Significant Spikes)\", fontsize=11, fontweight='bold')\naxes[2, 1].grid(True)\n\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\nShow code\n# ==========================================\n# METHOD 3: LJUNG-BOX TEST FOR AUTOCORRELATION\n# ==========================================\nprint(\"=== Method 3: Ljung-Box Test on Original Prices ===\")\nljung_orig = acorr_ljungbox(close_prices, lags=[10], return_df=True)\ndisplay(ljung_orig)\np_orig = ljung_orig['lb_pvalue'].values[0]\nprint(f\"Verdict: p-value = {p_orig:.4e}. \" +\n      (\"Significant autocorrelation present (Reject H0 -&gt; Random Walk / Non-Stationary).\" if p_orig &lt; 0.05 else \"No autocorrelation (Fail to reject H0 -&gt; White Noise).\"))\n\nprint(\"\\n=== Method 3: Ljung-Box Test on 1st-Order Differenced Prices ===\")\nljung_diff = acorr_ljungbox(diff_prices, lags=[10], return_df=True)\ndisplay(ljung_diff)\np_diff = ljung_diff['lb_pvalue'].values[0]\nprint(f\"Verdict: p-value = {p_diff:.4f}. \" +\n      (\"Significant autocorrelation remains.\" if p_diff &lt; 0.05 else \"No significant autocorrelation (Fail to reject H0 -&gt; White Noise / Stationary).\"))\n\n\n=== Method 3: Ljung-Box Test on Original Prices ===\n\n\n\n    \n\n\n\n\n\n\nlb_stat\nlb_pvalue\n\n\n\n\n10\n2084.494392\n0.0\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n  \n    \n    \n\n  \n    \n  \n    \n    \n  \n\n    \n  \n\n\nVerdict: p-value = 0.0000e+00. Significant autocorrelation present (Reject H0 -&gt; Random Walk / Non-Stationary).\n\n=== Method 3: Ljung-Box Test on 1st-Order Differenced Prices ===\n\n\n\n    \n\n\n\n\n\n\nlb_stat\nlb_pvalue\n\n\n\n\n10\n13.269247\n0.209005\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n  \n    \n    \n\n  \n    \n  \n    \n    \n  \n\n    \n  \n\n\nVerdict: p-value = 0.2090. No significant autocorrelation (Fail to reject H0 -&gt; White Noise / Stationary).\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Time Series Track",
+      "White Noise and Random Walks in Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "time-series/01-time-series-analysis.html#overview",
+    "href": "time-series/01-time-series-analysis.html#overview",
+    "title": "Time Series Analysis and Decomposition",
+    "section": "1.1 Overview",
+    "text": "1.1 Overview\nTime series forecasting is the process of using historical data points collected sequentially over time to predict future values.\nThe key difference from a typical machine learning problem is that time and temporal dependencies matter. In time series data, the value at a particular point can depend on previous observations, trends, seasonality, and sometimes external factors.\nSo, in simple terms Time series forecasting is about understanding patterns in historical time-dependent data and using those patterns to make predictions about the future.",
+    "crumbs": [
+      "Time Series Track",
+      "Time Series Analysis and Decomposition"
+    ]
+  },
+  {
+    "objectID": "time-series/01-time-series-analysis.html#types-of-time-series",
+    "href": "time-series/01-time-series-analysis.html#types-of-time-series",
+    "title": "Time Series Analysis and Decomposition",
+    "section": "1.2 Types of Time Series",
+    "text": "1.2 Types of Time Series\n\nUnivariate: A univariate time series records only one variable over time, making it simpler to analyze and model.\nMultivariate: A multivariate time series tracks multiple related variables together to show how they influence each other over time.",
+    "crumbs": [
+      "Time Series Track",
+      "Time Series Analysis and Decomposition"
+    ]
+  },
+  {
+    "objectID": "time-series/01-time-series-analysis.html#components-of-time-series-data-time-series-decomposition",
+    "href": "time-series/01-time-series-analysis.html#components-of-time-series-data-time-series-decomposition",
+    "title": "Time Series Analysis and Decomposition",
+    "section": "1.3 Components of Time Series Data / Time series decomposition",
+    "text": "1.3 Components of Time Series Data / Time series decomposition\nTime series data generally has four main components: trend, seasonality, cyclical variation, and irregular or random variation\n\n1.3.1 Time series decomposition\nTime series decomposition means breaking a time series into smaller components so we can understand what is driving the data.\nDecomposition = separating a time series into its underlying patterns. Time Series = Trend + Seasonality + Cyclical + Irregular/Noise\n\nTrends: A trend signifies a long-term directional movement in the data, which can be either increasing or decreasing over time.It captures the overall upward or downward movement over time. Trends can be linear or nonlinear.\nSeasonality: Seasonality is a pattern that repeats at a fixed interval of time. It usually happens because of factors such as seasons, holidays, weekdays, or regular business cycles.\nCyclical Variations: Cyclical variations are long-term rises and falls in a time series that occur around the overall trend, usually because of broader economic, business, or market conditions. unlike seasonality, cyclical patterns do not repeat at a fixed, known interval.\nIrregularity (Noise): Noise is the random, unpredictable part of a time series that is not explained by trend, seasonality, or cycles.\n\n\n\nShow code\n# install the required module\n# !pip install yfinance pandas matplotlib statsmodels\n\n\n\n\nShow code\n# load indian stocks nifty50 data\n\nimport yfinance as yf\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nimport warnings\nwarnings.filterwarnings('ignore')\n\n# Download NIFTY 50 data\nnifty_50 = yf.download(\n    \"^NSEI\",\n    start=\"2025-01-01\",\n    end=\"2026-01-01\",\n    auto_adjust=False\n)\n\nnifty_50.head()\n\n\n\n    \n\n\n\n\n\nPrice\nAdj Close\nClose\nHigh\nLow\nOpen\nVolume\n\n\nTicker\n^NSEI\n^NSEI\n^NSEI\n^NSEI\n^NSEI\n^NSEI\n\n\nDate\n\n\n\n\n\n\n\n\n\n\n2025-01-01\n23742.900391\n23742.900391\n23822.800781\n23562.800781\n23637.650391\n154900\n\n\n2025-01-02\n24188.650391\n24188.650391\n24226.699219\n23751.550781\n23783.000000\n283200\n\n\n2025-01-03\n24004.750000\n24004.750000\n24196.449219\n23976.000000\n24196.400391\n312300\n\n\n2025-01-06\n23616.050781\n23616.050781\n24089.949219\n23551.900391\n24045.800781\n278100\n\n\n2025-01-07\n23707.900391\n23707.900391\n23795.199219\n23637.800781\n23679.900391\n262300\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n    \n  \n\n\n\n\nShow code\n# print all columns\n\nnifty_50 = nifty_50.droplevel('Ticker', axis=1)\nnifty_50.head()\n\n\n\n    \n\n\n\n\n\nPrice\nAdj Close\nClose\nHigh\nLow\nOpen\nVolume\n\n\nDate\n\n\n\n\n\n\n\n\n\n\n2025-01-01\n23742.900391\n23742.900391\n23822.800781\n23562.800781\n23637.650391\n154900\n\n\n2025-01-02\n24188.650391\n24188.650391\n24226.699219\n23751.550781\n23783.000000\n283200\n\n\n2025-01-03\n24004.750000\n24004.750000\n24196.449219\n23976.000000\n24196.400391\n312300\n\n\n2025-01-06\n23616.050781\n23616.050781\n24089.949219\n23551.900391\n24045.800781\n278100\n\n\n2025-01-07\n23707.900391\n23707.900391\n23795.199219\n23637.800781\n23679.900391\n262300\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n    \n  \n\n\n\n\nShow code\n# plot the line plots for the Close price\n\nplt.figure(figsize=(14, 5))\n\nplt.plot(nifty_50['Close'], label=\"Close Price\", color=\"orange\")\n\nplt.title(\"NIFTY 50 Closing Price\")\nplt.xlabel(\"Date\")\nplt.ylabel(\"Index Value\")\n\nplt.legend()\nplt.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\nShow code\n# classicial Time Series Decomposition\n\nfrom statsmodels.tsa.seasonal import seasonal_decompose\n\ndecomposition_additive = seasonal_decompose(\n    nifty_50['Close'],\n    model='additive',\n    period=30  # as the data is daily, so we are telling look for a pattern that repeats every 30 trading observations(days)\n)\n\n\n\n\nShow code\n# from the above additive decomposition, find trend and plot it\n\ntrend_additive = decomposition_additive.trend\n\nplt.figure(figsize=(20, 5))\nplt.plot(trend_additive, label=\"Trend\", color=\"blue\")\nplt.title(\"Additive Decomposition - Trends\")\nplt.xlabel(\"Date\")\nplt.ylabel(\"Closing Price\")\nplt.legend()\nplt.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\nShow code\n# from the above additive decomposition, find seasonality and plot it\n\nseasonal_additive = decomposition_additive.seasonal\n\nplt.figure(figsize=(20, 5))\nplt.plot(seasonal_additive, label=\"Trend\", color=\"Orange\")\nplt.title(\"Additive Decomposition - Seasonality\")\nplt.xlabel(\"Date\")\nplt.ylabel(\"Closing Price\")\nplt.legend()\nplt.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\nShow code\n# from the above additive decomposition, find residuals and plot it\n\nresidual_additive = decomposition_additive.resid\n\nplt.figure(figsize=(20, 5))\nplt.plot(residual_additive, label=\"Trend\", color=\"red\")\nplt.title(\"Additive Decomposition - Residuals\")\nplt.xlabel(\"Date\")\nplt.ylabel(\"Closing Price\")\nplt.legend()\nplt.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\nShow code\nimport matplotlib.pyplot as plt\n\n# Clean, compact plotting with distinct colors\nfig, axes = plt.subplots(3, 1, figsize=(15, 10), sharex=True)\n\naxes[0].plot(trend_additive, color='royalblue', label='Trend')\naxes[1].plot(seasonal_additive, color='darkorange', label='Seasonality')\naxes[2].plot(residual_additive, color='crimson', label='Residuals')\n\nfor ax, title in zip(axes, ['Trend', 'Seasonality', 'Residuals']):\n    ax.set_title(f'Additive Decomposition - {title}')\n    ax.grid(True)\n    ax.legend(loc='upper left')\n\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Time Series Track",
+      "Time Series Analysis and Decomposition"
+    ]
+  },
+  {
+    "objectID": "time-series/01-time-series-analysis.html#decomposition-models",
+    "href": "time-series/01-time-series-analysis.html#decomposition-models",
+    "title": "Time Series Analysis and Decomposition",
+    "section": "1.4 Decomposition Models",
+    "text": "1.4 Decomposition Models\nThe two main types of time-series decomposition models are:\n\nAdditive decomposition: Use it when the seasonal variation stays roughly the same size over time.\n\n\nY_t = T_t + S_t + R_t\n\n\nMultiplicative decomposition: Use it when seasonal variation grows or shrinks with the level of the series.\n\n\nY_t = T_t \\times S_t \\times R_t\n\nUse additive decomposition when seasonal fluctuations remain constant in magnitude, and multiplicative decomposition when seasonal variation changes proportionally with the level of the series.\n\n1.4.1 Visualizing Additive vs. Multiplicative Behaviors\nTo help visualize how the variance behaves in each model:\n\nAdditive: The amplitude of seasonal variations remains constant over time regardless of the trend level.\nMultiplicative: The amplitude of seasonal variations increases or decreases proportionally with the level of the trend.\n\n\n\n\nAdditive vs Multiplicative Visualization\n\n\n\n\nShow code\nimport numpy as np\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\n# Generate synthetic timeline\nnp.random.seed(42)\ntime = np.arange(1, 101)\ntrend = 0.5 * time\n\n# 1. Additive Seasonality: Constant amplitude (+- 10)\nseasonal_add = 10 * np.sin(2 * np.pi * time / 12)\nnoise_add = np.random.normal(0, 1, len(time))\nseries_add = trend + seasonal_add + noise_add\nupper_bound_add = trend + 10\nlower_bound_add = trend - 10\n\n# 2. Multiplicative Seasonality: Growing amplitude as trend rises (* 1.3 and * 0.7)\nseasonal_mult = (1.0 + 0.3 * np.sin(2 * np.pi * time / 12))\nnoise_mult = np.random.normal(1, 0.02, len(time))\nseries_mult = trend * seasonal_mult * noise_mult\nupper_bound_mult = trend * 1.3\nlower_bound_mult = trend * 0.7\n\n# Plotting the visual difference\nfig, axes = plt.subplots(1, 2, figsize=(18, 6))\n\n# Additive Plot with Bounds\naxes[0].plot(time, series_add, color='royalblue', label='Observed (Series)', alpha=0.8)\naxes[0].plot(time, trend, color='black', linestyle='--', label='Trend')\naxes[0].plot(time, upper_bound_add, color='red', linestyle=':', linewidth=2, label='Upper Bound (Trend + 10)')\naxes[0].plot(time, lower_bound_add, color='red', linestyle=':', linewidth=2, label='Lower Bound (Trend - 10)')\naxes[0].set_title('Additive: Constant Seasonal Variation (Fixed Bounds)')\naxes[0].set_xlabel('Time')\naxes[0].set_ylabel('Value')\naxes[0].grid(True)\naxes[0].legend(loc='upper left')\n\n# Multiplicative Plot with Bounds\naxes[1].plot(time, series_mult, color='teal', label='Observed (Series)', alpha=0.8)\naxes[1].plot(time, trend, color='black', linestyle='--', label='Trend')\naxes[1].plot(time, upper_bound_mult, color='red', linestyle=':', linewidth=2, label='Upper Bound (Trend * 1.3)')\naxes[1].plot(time, lower_bound_mult, color='red', linestyle=':', linewidth=2, label='Lower Bound (Trend * 0.7)')\naxes[1].set_title('Multiplicative: Expanding Seasonal Variation (Widening Bounds)')\naxes[1].set_xlabel('Time')\naxes[1].set_ylabel('Value')\naxes[1].grid(True)\naxes[1].legend(loc='upper left')\n\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Time Series Track",
+      "Time Series Analysis and Decomposition"
+    ]
+  },
+  {
+    "objectID": "time-series/01-time-series-analysis.html#seasonal-trend-decomposition-using-loess-stl",
+    "href": "time-series/01-time-series-analysis.html#seasonal-trend-decomposition-using-loess-stl",
+    "title": "Time Series Analysis and Decomposition",
+    "section": "1.5 Seasonal-Trend Decomposition using Loess (STL)",
+    "text": "1.5 Seasonal-Trend Decomposition using Loess (STL)\n\nSTL stands for Seasonal-Trend decomposition using Locally Estimated Scatterplot Smoothing.\nIt is a technique that uses linear regression to smooth out data, making it particularly effective for handling outliers in time series datasets. While Classical decomposition assumes a fixed seasonal pattern, STL allows for changing seasonal variations over time.\nSTL handles outliers but classical decompositions are influnced by outliers.\nSTL only supports additive models. but, Classical decomposition can handle both additive and multiplicative models.\nSTL = flexible seasonality + LOESS + robust to outliers\n\n\n\nShow code\nfrom statsmodels.tsa.seasonal import STL\nimport matplotlib.pyplot as plt\n\n# 1. Fit the STL Decomposition\nstl = STL(\n    nifty_50['Close'],\n    period=30,  # Look for a monthly (30 trading days) seasonal cycle\n    robust=True\n)\nresult = stl.fit()\n\n# 2. Extract components\ntrend_stl = result.trend\nseasonal_stl = result.seasonal\nresid_stl = result.resid\n\n# 3. Create a clean, customized multi-panel plot\nfig, axes = plt.subplots(4, 1, figsize=(15, 12), sharex=True)\n\n# Plot Observed alongside Trend\naxes[0].plot(nifty_50['Close'], color='gray', alpha=0.5, label='Observed')\naxes[0].plot(trend_stl, color='royalblue', linewidth=2, label='STL Trend')\naxes[0].set_title('NIFTY 50 - Observed vs. Trend Component')\n\n# Plot Seasonality\naxes[1].plot(seasonal_stl, color='darkorange', label='STL Seasonality')\naxes[1].set_title('NIFTY 50 - Seasonal Component (30-day period)')\n\n# Plot Residuals\naxes[2].plot(resid_stl, color='crimson', label='STL Residuals')\naxes[2].set_title('NIFTY 50 - Residual Component (Noise)')\n\n# Plot Observed again separately for standard STL comparison context\naxes[3].plot(nifty_50['Close'], color='purple', label='Original Series')\naxes[3].set_title('NIFTY 50 - Original Close Price')\n\n# Apply general styling across all axes\nfor ax in axes:\n    ax.grid(True, linestyle='--', alpha=0.5)\n    ax.legend(loc='upper left')\n    ax.set_ylabel('Value')\n\nplt.suptitle(\"NIFTY 50 - Monthly (30 days) Robust STL Decomposition\", fontsize=16, fontweight='bold', y=0.98)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Time Series Track",
+      "Time Series Analysis and Decomposition"
+    ]
+  },
+  {
+    "objectID": "python/08-python-working-with-data.html#reading-and-writing-data-in-different-formats",
+    "href": "python/08-python-working-with-data.html#reading-and-writing-data-in-different-formats",
+    "title": "Working with Data in Python: CSV, JSON and Pandas",
+    "section": "8.1 Reading and Writing Data in Different Formats",
+    "text": "8.1 Reading and Writing Data in Different Formats\n\nCSV (Comma-Separated Values): CSV is a common file format for storing structured data in a plain text format. Python provides libraries like csv and tools like pandas for reading and writing data in CSV format. You can read data from CSV files and write data to them using these libraries.\nJSON (JavaScript Object Notation): JSON is a lightweight data interchange format commonly used for configuration files, web APIs, and data storage. Python’s json library allows you to work with JSON data, including reading JSON data from files and converting Python data structures to JSON and vice versa.\nXML (Extensible Markup Language): XML is a markup language used to store structured data. Python has libraries like xml.etree.ElementTree and lxml for parsing and creating XML documents.",
+    "crumbs": [
+      "Python Track",
+      "Working with Data in Python: CSV, JSON and Pandas"
+    ]
+  },
+  {
+    "objectID": "python/08-python-working-with-data.html#data-manipulation-with-pandas",
+    "href": "python/08-python-working-with-data.html#data-manipulation-with-pandas",
+    "title": "Working with Data in Python: CSV, JSON and Pandas",
+    "section": "8.2 Data Manipulation with Pandas",
+    "text": "8.2 Data Manipulation with Pandas\n\nPandas: Pandas is a powerful library for data manipulation and analysis. It provides two primary data structures, Series and DataFrame, which make it easy to work with structured data. You can perform various operations, such as filtering, sorting, grouping, merging, and reshaping data using Pandas. It’s especially useful for cleaning and transforming data before analysis.\nExample: You can read a CSV file into a Pandas DataFrame, filter rows based on conditions, compute summary statistics, and perform various data manipulation tasks.\n\n\n\nShow code\nimport pandas as pd\n\n# Read data from a CSV file\ndata = pd.read_csv('data.csv')\n\n# Filter data\nfiltered_data = data[data['column_name'] &gt; 10]\n\n# Compute summary statistics\nmean_value = data['column_name'].mean()\n\n# Group data\ngrouped_data = data.groupby('category_column')",
+    "crumbs": [
+      "Python Track",
+      "Working with Data in Python: CSV, JSON and Pandas"
+    ]
+  },
+  {
+    "objectID": "python/08-python-working-with-data.html#data-visualization-with-matplotlib-or-seaborn",
+    "href": "python/08-python-working-with-data.html#data-visualization-with-matplotlib-or-seaborn",
+    "title": "Working with Data in Python: CSV, JSON and Pandas",
+    "section": "8.3 Data Visualization with Matplotlib or Seaborn",
+    "text": "8.3 Data Visualization with Matplotlib or Seaborn\n\nMatplotlib: Matplotlib is a popular library for creating static, animated, and interactive visualizations in Python. It provides a wide range of options for customizing plots, charts, and graphs.\nSeaborn: Seaborn is a data visualization library that is built on top of Matplotlib and provides a high-level interface for creating attractive and informative statistical graphics. It simplifies the process of creating complex plots.\nExample: You can use Matplotlib or Seaborn to create various types of charts, including line plots, bar charts, scatter plots, histograms, and more.\n\n\n\nShow code\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# Create a line plot\nplt.plot(x_values, y_values)\nplt.xlabel('X-axis label')\nplt.ylabel('Y-axis label')\nplt.title('Line Plot')\nplt.show()\n\n# Create a bar chart with Seaborn\nsns.barplot(x='category', y='value', data=data)\nplt.xlabel('Category')\nplt.ylabel('Value')\nplt.title('Bar Chart')\nplt.show()\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Working with Data in Python: CSV, JSON and Pandas"
+    ]
+  },
+  {
+    "objectID": "python/06-python-error-handling-and-exceptions.html#handling-exceptions-try-except-finally",
+    "href": "python/06-python-error-handling-and-exceptions.html#handling-exceptions-try-except-finally",
+    "title": "Python Exceptions: try, except and finally",
+    "section": "6.1 Handling Exceptions (try, except, finally)",
+    "text": "6.1 Handling Exceptions (try, except, finally)\nTry-Except Block: In Python, you can use a try block to enclose the code that might raise an exception. If an exception occurs within the try block, the program immediately jumps to the corresponding except block.\n\n\nShow code\ntry:\n    result = 10 / 0  # This will raise a ZeroDivisionError\nexcept ZeroDivisionError:\n    print(\"Cannot divide by zero.\")\n\n\nFinally Block: You can also include a finally block after the try and except blocks. Code inside the finally block will always run, whether an exception occurred or not. It’s typically used for cleanup operations like closing files or network connections.\n\n\nShow code\ntry:\n    # Code that may raise an exception\nexcept ExceptionType:\n    # Code to handle the exception\nfinally:\n    # Code that always runs",
+    "crumbs": [
+      "Python Track",
+      "Python Exceptions: try, except and finally"
+    ]
+  },
+  {
+    "objectID": "python/06-python-error-handling-and-exceptions.html#raising-custom-exceptions",
+    "href": "python/06-python-error-handling-and-exceptions.html#raising-custom-exceptions",
+    "title": "Python Exceptions: try, except and finally",
+    "section": "6.2 Raising Custom Exceptions",
+    "text": "6.2 Raising Custom Exceptions\n\nSometimes, you may want to raise your own exceptions to handle specific situations in your code. To do this, you can create a custom exception class by inheriting from the built-in Exception class or one of its subclasses. Here’s how you can raise a custom exception:\n\n\n\nShow code\nclass MyCustomException(Exception):\n    pass\n\ntry:\n    # Some code\n    if something_bad_happens:\n        raise MyCustomException(\"An error occurred\")\nexcept MyCustomException as e:\n    print(f\"Custom exception caught: {e}\")",
+    "crumbs": [
+      "Python Track",
+      "Python Exceptions: try, except and finally"
+    ]
+  },
+  {
+    "objectID": "python/06-python-error-handling-and-exceptions.html#exception-hierarchy",
+    "href": "python/06-python-error-handling-and-exceptions.html#exception-hierarchy",
+    "title": "Python Exceptions: try, except and finally",
+    "section": "6.3 Exception Hierarchy",
+    "text": "6.3 Exception Hierarchy\n\nPython has a hierarchy of exception classes, with the base class being BaseException. This class is the parent of all built-in exceptions. More specific exceptions inherit from higher-level exceptions, which allows you to catch exceptions at different levels of granularity.\nArithmeticError is a subclass of BaseException and is the parent class of exceptions like ZeroDivisionError.\nZeroDivisionError is a subclass of ArithmeticError.\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Python Exceptions: try, except and finally"
+    ]
+  },
+  {
+    "objectID": "python/04-python-data-structures-and-collections.html#working-with-lists-tuples-and-dictionaries",
+    "href": "python/04-python-data-structures-and-collections.html#working-with-lists-tuples-and-dictionaries",
+    "title": "Python Data Structures: Lists, Sets and Comprehensions",
+    "section": "4.1 Working with Lists, Tuples, and Dictionaries",
+    "text": "4.1 Working with Lists, Tuples, and Dictionaries\n\nLists: Lists are ordered collections of items in Python. They can hold elements of different data types and are mutable, meaning you can change their contents (add, remove, modify elements).\nTuples: Tuples are similar to lists but are immutable, which means you cannot change their contents once they are created. They are often used for representing fixed collections of items.\nDictionaries: Dictionaries are collections of key-value pairs. They are unordered, mutable, and allow you to store and retrieve values using keys rather than indexes. Dictionaries are versatile and commonly used for storing and retrieving data efficiently.",
+    "crumbs": [
+      "Python Track",
+      "Python Data Structures: Lists, Sets and Comprehensions"
+    ]
+  },
+  {
+    "objectID": "python/04-python-data-structures-and-collections.html#list-comprehensions",
+    "href": "python/04-python-data-structures-and-collections.html#list-comprehensions",
+    "title": "Python Data Structures: Lists, Sets and Comprehensions",
+    "section": "4.2 List Comprehensions",
+    "text": "4.2 List Comprehensions\n\nList comprehensions are a concise and elegant way to create lists in Python. They allow you to generate a new list by applying an expression to each item in an existing iterable (e.g., a list, tuple, or range).\nList comprehensions are written inside square brackets [] and typically consist of an expression and a for loop to iterate over the elements of an iterable.\n\n\n\nShow code\nsquares = [x**2 for x in range(1, 6)]\nprint(squares)\n\n\n[1, 4, 9, 16, 25]",
+    "crumbs": [
+      "Python Track",
+      "Python Data Structures: Lists, Sets and Comprehensions"
+    ]
+  },
+  {
+    "objectID": "python/04-python-data-structures-and-collections.html#sets-and-frozensets",
+    "href": "python/04-python-data-structures-and-collections.html#sets-and-frozensets",
+    "title": "Python Data Structures: Lists, Sets and Comprehensions",
+    "section": "4.3 Sets and Frozensets",
+    "text": "4.3 Sets and Frozensets\n\nSets: Sets are unordered collections of unique elements. They do not allow duplicate values. You can perform set operations like union, intersection, and difference.\nFrozensets: Frozensets are similar to sets but are immutable, meaning you cannot change their elements after creation. They are often used as keys in dictionaries or as elements of other sets.\n\n\n\nShow code\n#  creates a set with unique values\nmy_set = {1, 2, 3, 3, 4,3,2,1}\nprint(f\"My set : {my_set}\")\n\n# Creating a frozenset\nmy_frozenset = frozenset([1, 2, 3, 3, 4,3,2,1])\nprint(f\"my_frozenset : {my_frozenset}\")\n\n\nMy set : {1, 2, 3, 4}\nmy_frozenset : frozenset({1, 2, 3, 4})",
+    "crumbs": [
+      "Python Track",
+      "Python Data Structures: Lists, Sets and Comprehensions"
+    ]
+  },
+  {
+    "objectID": "python/04-python-data-structures-and-collections.html#dealing-with-collections-sorting-searching",
+    "href": "python/04-python-data-structures-and-collections.html#dealing-with-collections-sorting-searching",
+    "title": "Python Data Structures: Lists, Sets and Comprehensions",
+    "section": "4.4 Dealing with Collections (Sorting, Searching)",
+    "text": "4.4 Dealing with Collections (Sorting, Searching)\n\nSorting: You can sort collections like lists using the sorted() function or by calling the sort() method for lists in-place. You can also specify custom sorting criteria using the key argument.\nSearching: You can use various methods to search for elements in collections, such as the in keyword to check for membership, and the index() method to find the index of a specific element in a list. For dictionaries, you can use keys to access values efficiently.\n\n\n\nShow code\nnumbers = [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]\n\n# Sorts the list\nsorted_numbers = sorted(numbers)\nprint({f\"sorted_numbers : {sorted_numbers}\"})\n\n\n{'sorted_numbers : [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]'}\n\n\n\n\nShow code\nfruits = [\"apple\", \"banana\", \"cherry\", \"date\"]  # Create a list\nprint(\"banana\" in fruits)                        # Check if \"banana\" is in the list\nindex = fruits.index(\"cherry\")                   # Find the index of \"cherry\"\nprint(\"index of cheery is {index}\")\n\n\nTrue\nindex of cheery is {index}\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Python Data Structures: Lists, Sets and Comprehensions"
+    ]
+  },
+  {
+    "objectID": "python/02-python-control-flow.html#conditional-statements-if-elif-else",
+    "href": "python/02-python-control-flow.html#conditional-statements-if-elif-else",
+    "title": "Python Control Flow: if, elif, else and Loops",
+    "section": "2.1 Conditional Statements (if, elif, else)",
+    "text": "2.1 Conditional Statements (if, elif, else)\n\nConditional statements are used to execute different blocks of code based on whether a specific condition is true or false.\n\n\n2.1.1 “IF” Condition\n\nThe if statement is used to check a condition. If the condition is true, the code inside the if block is executed.\n\n\n\nShow code\n# if Statement\nx = 10\nif x &gt; 5:\n    print(\"x is greater than 5\")\n\n\nx is greater than 5\n\n\n\n\n2.1.2 “elif” (short for “else if”)\n\nThe elif statement is used to check additional conditions if the previous if or elif conditions are not met. You can have multiple elif blocks.\n\n\n\nShow code\n# Else Statement\nx = 3\nif x &gt; 5:\n    print(\"x is greater than 5\")\nelif x &gt; 0:\n    print(\"x is positive but not greater than 5\")\n\n\nx is positive but not greater than 5\n\n\n\n\nShow code\n# else & else\nx = -2\nif x &gt; 5:\n    print(\"x is greater than 5\")\nelif x &gt; 0:\n    print(\"x is positive but not greater than 5\")\nelse:\n    print(\"x is non-positive\")\n\n\nx is non-positive",
+    "crumbs": [
+      "Python Track",
+      "Python Control Flow: if, elif, else and Loops"
+    ]
+  },
+  {
+    "objectID": "python/02-python-control-flow.html#loops-for-while",
+    "href": "python/02-python-control-flow.html#loops-for-while",
+    "title": "Python Control Flow: if, elif, else and Loops",
+    "section": "2.2 Loops (for, while)",
+    "text": "2.2 Loops (for, while)\n\nLoops allow you to repeat a block of code multiple times. In Python, two common types of loops are the for loop and the while loop.\n\n\n2.2.1 “for” Loop\n\nIt is used to iterate over a sequence (like a list or a range) or any iterable object. The loop executes a specified block of code for each item in the sequence.\n\n\n\nShow code\n# for loop\nfor i in range(5):\n    print(i)\n\n\n0\n1\n2\n3\n4\n\n\n\n\n2.2.2 “while” Loop\n\nIt is used to repeatedly execute a block of code as long as a specified condition is true.\n\n\n\nShow code\n# while loop\nx = 0\nwhile x &lt; 5:\n    print(x)\n    x += 1\n\n\n0\n1\n2\n3\n4\n\n\n\n\nShow code\n# Iterating Through Data Structures:\n\nmy_list = [1, 2, 3, 4, 5]\nfor item in my_list:\n    print(item)\n\n\n1\n2\n3\n4\n5",
+    "crumbs": [
+      "Python Track",
+      "Python Control Flow: if, elif, else and Loops"
+    ]
+  },
+  {
+    "objectID": "python/02-python-control-flow.html#break-and-continue-statements",
+    "href": "python/02-python-control-flow.html#break-and-continue-statements",
+    "title": "Python Control Flow: if, elif, else and Loops",
+    "section": "2.3 Break and Continue Statements",
+    "text": "2.3 Break and Continue Statements\nbreak : The break statement is used to exit a loop prematurely. It is often used in conjunction with conditional statements to terminate a loop based on a specific condition.\n\n\nShow code\n# Break statement\nfor i in range(10):\n    if i == 5:\n        break\n    print(i)\n\n\n0\n1\n2\n3\n4\n\n\ncontinue : The continue statement is used to skip the current iteration of a loop and move to the next iteration.\n\n\nShow code\n# continue statement\n\nfor i in range(5):\n    if i == 2:\n        continue\n    print(i)\n\n\n0\n1\n3\n4\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Python Control Flow: if, elif, else and Loops"
+    ]
+  },
+  {
+    "objectID": "time-series/index.html",
+    "href": "time-series/index.html",
+    "title": "Time Series Track",
+    "section": "",
+    "text": "Read the notebooks in order: each part builds on the one before it. Every part is a runnable Jupyter notebook with the code, outputs and charts included.",
+    "crumbs": [
+      "Time Series Track"
+    ]
+  },
+  {
+    "objectID": "time-series/index.html#roadmap",
+    "href": "time-series/index.html#roadmap",
+    "title": "Time Series Track",
+    "section": "Roadmap",
+    "text": "Roadmap\n\n\n\n  \n    01\n    \n      Part 1\n      Time Series Analysis and Decomposition\n      Learn the fundamentals of time series forecasting, additive vs. multiplicative models, and robust STL decomposition using NIFTY 50 data.\n      \n        Time SeriesFinanceData VisualizationPython\n      \n    \n  \n\n  \n    02\n    \n      Part 2\n      Stationarity in Time Series Analysis\n      Learn how to detect non-stationarity in time series using statistical tests and apply techniques like differencing, transformations, and detrending to achieve stationarity.\n      \n        Time SeriesStationarityPython\n      \n    \n  \n\n  \n    03\n    \n      Part 3\n      White Noise and Random Walks in Time Series Analysis\n      Learn how to identify White Noise and Random Walk processes in financial time series using visual, ACF/PACF, and Ljung-Box test diagnostics.\n      \n        Time SeriesFinanceStatisticsPython\n      \n    \n  \n\n\nNo matching items",
+    "crumbs": [
+      "Time Series Track"
+    ]
+  },
+  {
+    "objectID": "articles.html",
+    "href": "articles.html",
+    "title": "All articles",
+    "section": "",
+    "text": "Prefer a guided path? Each learning track lists its notebooks in reading order."
+  },
+  {
+    "objectID": "articles.html#newest-first",
+    "href": "articles.html#newest-first",
+    "title": "All articles",
+    "section": "Newest first",
+    "text": "Newest first"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Gujuri Alekha\n    Data Scientist & AI / ML Engineer · Applied ML & time series forecasting\n    \n      Portfolio\n      LinkedIn\n      GitHub\nWelcome! I am a Data Scientist & AI / ML Engineer with 2.5 years of hands-on experience in building machine learning pipelines, time-series forecasting engines, and production MLOps workflows.\nCurrently, I work as an Associate Data Scientist at Trinity Mobility, designing intelligent IoT pipelines, energy demand simulation engines, and smart municipal alert services."
+  },
+  {
+    "objectID": "about.html#technical-competencies",
+    "href": "about.html#technical-competencies",
+    "title": "About",
+    "section": "Technical competencies",
+    "text": "Technical competencies\n\nTime Series Modeling ARIMA / SARIMA Prophet STL Decomposition Classification Regression scikit-learn statsmodels Pandas NumPy PySpark SQL FastAPI Flask MLflow Docker CI/CD Python C++ Java"
+  },
+  {
+    "objectID": "about.html#experience",
+    "href": "about.html#experience",
+    "title": "About",
+    "section": "Experience",
+    "text": "Experience\nAssociate Data Scientist, Trinity Mobility\nDesigning intelligent IoT data pipelines, energy demand simulation engines, and smart municipal alert services. Building production-grade machine learning solutions for real-world infrastructure."
+  },
+  {
+    "objectID": "about.html#about-this-blog",
+    "href": "about.html#about-this-blog",
+    "title": "About",
+    "section": "About this blog",
+    "text": "About this blog\nThis repository and blog is my open technical journal where I document:\n\nEnd-to-end reproducible Jupyter notebooks converted into interactive web articles\nPractical experiments across Statistics, Time Series, Gen AI, RAG, and Agentic AI\nDeep dives into algorithmic concepts, performance tuning, and system architecture\n\nStart with a learning track, browse all articles, or check out the code on GitHub."
+  },
+  {
+    "objectID": "python/index.html",
+    "href": "python/index.html",
+    "title": "Python Track",
+    "section": "",
+    "text": "Read the notebooks in order: each part builds on the one before it. Every part is a runnable Jupyter notebook with the code, outputs and charts included.",
+    "crumbs": [
+      "Python Track"
+    ]
+  },
+  {
+    "objectID": "python/index.html#roadmap",
+    "href": "python/index.html#roadmap",
+    "title": "Python Track",
+    "section": "Roadmap",
+    "text": "Roadmap\n\n\n\n  \n    01\n    \n      Part 1\n      Python Basics: Variables and Data Types\n      An introduction to Python, its interpreters, and core data types: numbers, strings, lists, tuples, dictionaries and basic operators.\n      \n        PythonPython Basics\n      \n    \n  \n\n  \n    02\n    \n      Part 2\n      Python Control Flow: if, elif, else and Loops\n      Learn how Python makes decisions and repeats work with if, elif and else statements, for and while loops, and break and continue.\n      \n        PythonControl Flow\n      \n    \n  \n\n  \n    03\n    \n      Part 3\n      Python Functions and Modules\n      Define and call Python functions, pass arguments, return values, and import modules and libraries such as math.\n      \n        PythonFunctions\n      \n    \n  \n\n  \n    04\n    \n      Part 4\n      Python Data Structures: Lists, Sets and Comprehensions\n      Work with Python lists, tuples, dictionaries, sets and frozensets, write list comprehensions, and sort and search collections.\n      \n        PythonData Structures\n      \n    \n  \n\n  \n    05\n    \n      Part 5\n      Python File Handling: Reading and Writing Files\n      Read and write text files in Python, choose the right file mode, and use the with statement to close files safely.\n      \n        PythonFile Handling\n      \n    \n  \n\n  \n    06\n    \n      Part 6\n      Python Exceptions: try, except and finally\n      Handle errors in Python with try, except and finally, raise custom exceptions, and understand the exception class hierarchy.\n      \n        PythonExceptions\n      \n    \n  \n\n  \n    07\n    \n      Part 7\n      Object-Oriented Programming (OOP) in Python\n      Learn classes and objects, inheritance, polymorphism, encapsulation, and method overriding and overloading in Python.\n      \n        PythonOOP\n      \n    \n  \n\n  \n    08\n    \n      Part 8\n      Working with Data in Python: CSV, JSON and Pandas\n      Read and write CSV, JSON and XML data in Python, manipulate it with pandas, and visualize it with Matplotlib and Seaborn.\n      \n        PythonPandasData Visualization\n      \n    \n  \n\n  \n    09\n    \n      Part 9\n      Python Web Development: Flask and Django Basics\n      An introduction to Python web frameworks Flask and Django: routing, templates, databases, and HTTP requests and responses.\n      \n        PythonWeb DevelopmentFlask\n      \n    \n  \n\n\nNo matching items",
+    "crumbs": [
+      "Python Track"
+    ]
+  },
+  {
+    "objectID": "python/01-python-basics-variables-and-data-types.html#what-is-python",
+    "href": "python/01-python-basics-variables-and-data-types.html#what-is-python",
+    "title": "Python Basics: Variables and Data Types",
+    "section": "1.1 What is Python?",
+    "text": "1.1 What is Python?\n\nPython is a high-level, interpreted, and general-purpose programming language.\nIt was created by Guido van Rossum and first released in 1991.\nPython is known for its readability and simplicity, which makes it an excellent choice for beginners and experienced developers alike.\nIt has a large and active community, providing extensive libraries and frameworks for various applications.\n\n\n1.1.1 Python Interpreters\n\nPython provides different ways to interact with the language, including interactive shells and integrated development environments (IDEs).\nIDLE: IDLE is a simple integrated development environment that comes bundled with Python. It provides a Python shell where you can execute code interactively and write scripts.\nJupyter Notebook: Jupyter Notebook is a web-based interactive computing environment that allows you to create and share documents containing live code, equations, visualizations, and narrative text. It’s widely used for data analysis and data science tasks.",
+    "crumbs": [
+      "Python Track",
+      "Python Basics: Variables and Data Types"
+    ]
+  },
+  {
+    "objectID": "python/01-python-basics-variables-and-data-types.html#variables-and-data-types",
+    "href": "python/01-python-basics-variables-and-data-types.html#variables-and-data-types",
+    "title": "Python Basics: Variables and Data Types",
+    "section": "1.2 Variables and Data Types",
+    "text": "1.2 Variables and Data Types\n\n1.2.1 Numeric Types\n\nIntegers (int): Integers are whole numbers without a decimal point. For example, 5 and -10 are integers.\nFloats (float): Floats represent real numbers with a decimal point. Examples include 3.14 and -0.5.\nComplex Numbers (complex): Complex numbers consist of a real part and an imaginary part. For instance, 3 + 2j is a complex number.\n\n\n\n1.2.2 Strings and String Manipulation\n\nStrings (str): Strings are sequences of characters enclosed in single (’ ‘), double (” “), or triple (’’’ ’’’ or”“” “““) quotes. Examples:”Hello, Python!” or ’12345’.\nString Manipulation: Python provides various methods and operators for manipulating strings, such as concatenation, slicing, indexing, and formatting.\n\n\n\n1.2.3 Lists, Tuples, and Dictionaries\n\nLists (list): Lists are ordered collections of items enclosed in square brackets [ ]. They can contain elements of different data types and are mutable (can be modified).\nTuples (tuple): Tuples are similar to lists but enclosed in parentheses ( ). They are immutable (cannot be changed after creation).\nDictionaries (dict): Dictionaries are unordered collections of key-value pairs enclosed in curly braces { }. Keys are unique, and they are used to access values. Dictionaries are mutable.\n\n\n\n1.2.4 Variables, Assignments, and Basic Operators\n\nVariables: Variables are used to store data in Python. You can assign values to variables using the assignment operator (=). For example: x = 10 assigns the value 10 to the variable x.\nBasic Operators: Python supports various operators for performing operations on variables and values. Common operators include:\n\nArithmetic operators (+, -, *, /, // for floor division, % for modulo)\nComparison operators (==, !=, &lt;, &gt;, &lt;=, &gt;=)\nLogical operators (and, or, not)\nAssignment operators (+=, -=, *=, /=, etc.)\nMembership operators (in, not in) for checking if an element is in a container\nIdentity operators (is, is not) for comparing object identity\n\n\n\n\nShow code\n# Numeric types\ninteger_num = 5\nfloat_num = 3.14\ncomplex_num = 3 + 2j\n\n# Strings and String Manipulation\nstr_variable = \"Hello, Python!\"\nsubstring = str_variable[0:5]                    # Extracts \"Hello\"\nconcatenated_str = str_variable + \" Welcome!\"  # Concatenation\n\nprint(f\"str_variable : {str_variable}\")\nprint(f\"substring : {substring}\")\nprint(f\"concatenated_str : {concatenated_str}\")\n\n\nstr_variable : Hello, Python!\nsubstring : Hello\nconcatenated_str : Hello, Python! Welcome!\n\n\n\n\nShow code\n# Lists, Tuples, and Dictionaries\nmy_list = [1, 2, 3]\nmy_tuple = (4, 5, 6)\nmy_dict = {'name': 'Gujuri Alekha', 'age': 30}\nmy_set = {2,3,4,'Gujuri Alekha'}\n\nprint(f\"my_list : {my_list}\")\nprint(f\"my_tuple : {my_tuple}\")\nprint(f\"my_dict : {my_dict}\")\nprint(f\"my_set : {my_set}\")\n\n\nmy_list : [1, 2, 3]\nmy_tuple : (4, 5, 6)\nmy_dict : {'name': 'Gujuri Alekha', 'age': 30}\nmy_set : {2, 3, 4, 'Gujuri Alekha'}\n\n\n\n\nShow code\n# Variables, Assignments, and Basic Operators\nx = 10\ny = 5\nresult = x + y                           # Arithmetic operation\nis_equal = x == y                        # Comparison\nlogical_result = (x &gt; 5) and (y &lt; 10)   # Logical operation\n\n\nprint(f\"result : {result}\")\nprint(f\"is_equal : {is_equal}\")\nprint(f\"logical_result : {logical_result}\")\n\n\nresult : 15\nis_equal : False\nlogical_result : True\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Python Basics: Variables and Data Types"
+    ]
+  },
+  {
+    "objectID": "python/03-python-functions-and-modules.html#defining-and-calling-functions",
+    "href": "python/03-python-functions-and-modules.html#defining-and-calling-functions",
+    "title": "Python Functions and Modules",
+    "section": "3.1 Defining and Calling Functions",
+    "text": "3.1 Defining and Calling Functions\nDefining a Function : A function in Python is a reusable block of code that performs a specific task. To define a function, you use the def keyword followed by the function name and a pair of parentheses.\nCalling a Function : Once a function is defined, you can call it by using its name followed by parentheses, passing any required arguments (if any).\n\n\nShow code\n# define function\ndef greet(name):\n    print(f\"Hello, {name}!\")\n\n# calling function\n\ngreet(\"Gujuri Alekha\")\n\n\nHello, Gujuri Alekha!",
+    "crumbs": [
+      "Python Track",
+      "Python Functions and Modules"
+    ]
+  },
+  {
+    "objectID": "python/03-python-functions-and-modules.html#function-arguments-and-return-values",
+    "href": "python/03-python-functions-and-modules.html#function-arguments-and-return-values",
+    "title": "Python Functions and Modules",
+    "section": "3.2 Function Arguments and Return Values",
+    "text": "3.2 Function Arguments and Return Values\nFunction Arguments: Functions can accept input values called arguments or parameters. These values are passed into the function when it’s called and can be used inside the function.\nReturn Values : Functions can also return values using the return statement. A function can return one or multiple values.\n\n\nShow code\n# Function Arguments and Return Values\ndef add(x, y):\n    result = x + y\n    return result\n\n# call the function\nsum_result = add(8, 5)\nprint(f\"Sum of {x} & {y} is : {sum_result}\")\n\n\nSum of 5 & 5 is : 13",
+    "crumbs": [
+      "Python Track",
+      "Python Functions and Modules"
+    ]
+  },
+  {
+    "objectID": "python/03-python-functions-and-modules.html#importing-modules-and-libraries",
+    "href": "python/03-python-functions-and-modules.html#importing-modules-and-libraries",
+    "title": "Python Functions and Modules",
+    "section": "3.3 Importing Modules and Libraries",
+    "text": "3.3 Importing Modules and Libraries\n\nPython allows you to organize your code into modules and libraries to make it more manageable. A module is a Python file containing functions, variables, and classes, while a library is a collection of modules.\nYou can import modules or specific functions/classes from modules using the ’ import ’ statement.\n\n\n\nShow code\n# Importing the entire math module\nimport math\nresult = math.sqrt(16)\nprint(f\"square root of {16} is  : {result}\")\n\n# Importing only the sqrt function from math\nfrom math import sqrt\nResult = sqrt(49)\nprint(f\"square root of {49} is  : {Result}\")\n\n\nsquare root of 16 is  : 4.0\nsquare root of 49 is  : 7.0\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Python Functions and Modules"
+    ]
+  },
+  {
+    "objectID": "python/05-python-file-handling.html#reading-and-writing-text-files",
+    "href": "python/05-python-file-handling.html#reading-and-writing-text-files",
+    "title": "Python File Handling: Reading and Writing Files",
+    "section": "5.1 Reading and Writing Text Files",
+    "text": "5.1 Reading and Writing Text Files\nReading Files: You can read the contents of a text file in Python using the open() function.\nWriting Files: To write data to a text file, you can open the file in write mode (‘w’) or append mode (‘a’).\n\n\nShow code\n## we open the file named 'example.txt' in read mode ('r') and use the read() method to read its contents into the content\n## variable. The with statement is used to ensure that the file is properly closed when we're done with it.\n\nopen('example.txt', 'r') as file:\n    content = file.read()\n    print(content)\n\n##  we open 'example.txt' in write mode ('w') and use the write() method to write the text 'Hello, World!' to the file.\n## The '\\n' character represents a newline, so the text will be on a new line.\n\nwith open('example.txt', 'w') as file:\n    file.write('Hello, World!\\n')",
+    "crumbs": [
+      "Python Track",
+      "Python File Handling: Reading and Writing Files"
+    ]
+  },
+  {
+    "objectID": "python/05-python-file-handling.html#file-modes",
+    "href": "python/05-python-file-handling.html#file-modes",
+    "title": "Python File Handling: Reading and Writing Files",
+    "section": "5.2 File Modes",
+    "text": "5.2 File Modes\nFile modes specify how a file should be opened, whether for reading, writing, or appending. Common file modes in Python include:\n\n‘r’: Read mode - Opens the file for reading (default mode).\n‘w’: Write mode - Opens the file for writing. If the file already exists, it will be truncated (emptied). If it doesn’t exist, a new file will be created.\n‘a’: Append mode - Opens the file for writing, but does not truncate it. If the file doesn’t exist, a new file will be created.\n‘b’: Binary mode - Used in combination with other modes to indicate that the file should be treated as a binary file (e.g., ‘rb’, ‘wb’).",
+    "crumbs": [
+      "Python Track",
+      "Python File Handling: Reading and Writing Files"
+    ]
+  },
+  {
+    "objectID": "python/05-python-file-handling.html#using-context-managers-with-statement",
+    "href": "python/05-python-file-handling.html#using-context-managers-with-statement",
+    "title": "Python File Handling: Reading and Writing Files",
+    "section": "5.3 Using Context Managers (with Statement)",
+    "text": "5.3 Using Context Managers (with Statement)\n\nThe with statement in Python is used for context management, particularly for resources that need to be acquired and released properly, such as files. When you open a file using with, Python ensures that the file is properly closed when you’re done, even if an exception occurs during execution. This helps in avoiding resource leaks.\nWhen the code inside the with block finishes executing (in this case, reading the file), Python automatically closes the file, ensuring that you don’t have to explicitly call file.close().\n\n\n\nShow code\nwith open('example.txt', 'r') as file:\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Python File Handling: Reading and Writing Files"
+    ]
+  },
+  {
+    "objectID": "python/07-python-object-oriented-programming.html",
+    "href": "python/07-python-object-oriented-programming.html",
+    "title": "Object-Oriented Programming (OOP) in Python",
+    "section": "",
+    "text": "Object-Oriented Programming (OOP) is a programming paradigm that revolves around the concept of objects. In Python, everything is an object, and OOP principles are used to model real-world entities and their interactions in a more organized and maintainable way.",
+    "crumbs": [
+      "Python Track",
+      "Object-Oriented Programming (OOP) in Python"
+    ]
+  },
+  {
+    "objectID": "python/07-python-object-oriented-programming.html#classes-and-objects",
+    "href": "python/07-python-object-oriented-programming.html#classes-and-objects",
+    "title": "Object-Oriented Programming (OOP) in Python",
+    "section": "7.1 Classes and Objects",
+    "text": "7.1 Classes and Objects\n\nClass: A class is a blueprint or template for creating objects. It defines the attributes (data members) and methods (functions) that objects of that class will have. Classes help organize and structure code by grouping related data and behavior.\nObject: An object is an instance of a class. It is a concrete instantiation of the class, and it has its own set of attributes and can perform actions defined by the class methods.\n\n\n\nShow code\n# define  a class\n\nclass Dog:\n    def __init__(self, name):\n        self.name = name\n\n    def bark(self):\n        return f\"{self.name} says Woof!\"\n\n# Creating objects of the Dog class\ndog1 = Dog(\"Buddy\")\ndog2 = Dog(\"Charlie\")\n\nprint(dog1.bark())  # Output: Buddy says Woof!\nprint(dog2.bark())  # Output: Charlie says Woof!\n\n\nBuddy says Woof!\nCharlie says Woof!",
+    "crumbs": [
+      "Python Track",
+      "Object-Oriented Programming (OOP) in Python"
+    ]
+  },
+  {
+    "objectID": "python/07-python-object-oriented-programming.html#inheritance-and-polymorphism",
+    "href": "python/07-python-object-oriented-programming.html#inheritance-and-polymorphism",
+    "title": "Object-Oriented Programming (OOP) in Python",
+    "section": "7.2 Inheritance and Polymorphism",
+    "text": "7.2 Inheritance and Polymorphism\n\nInheritance: Inheritance is a mechanism that allows you to create a new class (subclass or derived class) based on an existing class (base class or parent class). The subclass inherits attributes and methods from the base class, which promotes code reuse and allows you to extend or modify the behavior of the base class.\nPolymorphism: Polymorphism means that objects of different classes can be treated as objects of a common base class. It allows you to use a single interface to represent different types of objects. Polymorphism is often achieved through method overriding and overloading.\n\n\n\nShow code\nclass Animal:\n    def speak(self):\n        pass\n\nclass Dog(Animal):\n    def speak(self):\n        return \"Woof!\"\n\nclass Cat(Animal):\n    def speak(self):\n        return \"Meow!\"\n\ndef animal_sound(animal):\n    return animal.speak()\n\ndog = Dog()\ncat = Cat()\n\nprint(animal_sound(dog))  # Output: Woof!\nprint(animal_sound(cat))  # Output: Meow!\n\n\nWoof!\nMeow!",
+    "crumbs": [
+      "Python Track",
+      "Object-Oriented Programming (OOP) in Python"
+    ]
+  },
+  {
+    "objectID": "python/07-python-object-oriented-programming.html#encapsulation-and-data-hiding",
+    "href": "python/07-python-object-oriented-programming.html#encapsulation-and-data-hiding",
+    "title": "Object-Oriented Programming (OOP) in Python",
+    "section": "7.3 Encapsulation and Data Hiding",
+    "text": "7.3 Encapsulation and Data Hiding\n\nEncapsulation: Encapsulation is the practice of bundling the data (attributes) and methods (functions) that operate on the data within a single unit, i.e., the class. It restricts access to some of the object’s components, making them private and only accessible through well-defined interfaces (getters and setters).\nData Hiding: Data hiding is a specific aspect of encapsulation where you hide the implementation details of an object’s attributes from the outside world. In Python, you can use underscores to indicate private attributes and methods (e.g., _private_var).\n\n\n\nShow code\nclass BankAccount:\n    def __init__(self, balance):\n        self._balance = balance  # Using a single underscore to indicate it's semi-private\n\n    def deposit(self, amount):\n        if amount &gt; 0:\n            self._balance += amount\n\n    def withdraw(self, amount):\n        if amount &gt; 0 and amount &lt;= self._balance:\n            self._balance -= amount\n\n    def get_balance(self):\n        return self._balance\n\naccount = BankAccount(1000)\naccount.deposit(500)\naccount.withdraw(200)\nprint(account.get_balance())  # Output: 1300\n\n\n1300",
+    "crumbs": [
+      "Python Track",
+      "Object-Oriented Programming (OOP) in Python"
+    ]
+  },
+  {
+    "objectID": "python/07-python-object-oriented-programming.html#method-overriding-and-overloading",
+    "href": "python/07-python-object-oriented-programming.html#method-overriding-and-overloading",
+    "title": "Object-Oriented Programming (OOP) in Python",
+    "section": "7.4 Method Overriding and Overloading",
+    "text": "7.4 Method Overriding and Overloading\n\nMethod Overriding: Method overriding allows a subclass to provide a specific implementation for a method that is already defined in its superclass. This enables the subclass to change or extend the behavior of the inherited method.\nMethod Overloading (Not Explicitly Supported in Python): Python does not support method overloading in the traditional sense as some other languages do (e.g., Java). In Python, you can define multiple methods with the same name in a class, but only the latest one defined will be used. However, you can achieve similar behavior by using default arguments and variable-length argument lists.\n\n\n\nShow code\nclass Animal:\n    def speak(self):\n        return \"Some generic sound\"\n\nclass Dog(Animal):\n    def speak(self):\n        return \"Woof!\"\n\ndog = Dog()\nprint(dog.speak())  # Output: Woof!\n\n\nWoof!\n\n\n\n\nShow code\nclass Calculator:\n    def add(self, a, b):\n        return a + b\n\n    def add(self, a, b, c):\n        return a + b + c\n\ncalc = Calculator()\nprint(calc.add(2, 3, 4))  # Output: 9\n\n\n9\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Object-Oriented Programming (OOP) in Python"
+    ]
+  },
+  {
+    "objectID": "python/09-python-web-development.html#introduction-to-web-frameworks",
+    "href": "python/09-python-web-development.html#introduction-to-web-frameworks",
+    "title": "Python Web Development: Flask and Django Basics",
+    "section": "9.1 Introduction to Web Frameworks",
+    "text": "9.1 Introduction to Web Frameworks\n\nFlask: Flask is a lightweight and micro web framework for Python. It is known for its simplicity and flexibility, making it a great choice for small to medium-sized projects. Flask provides the essential tools to build web applications, including routing, templates, and support for handling HTTP requests and responses.\nDjango: Django, on the other hand, is a high-level and feature-rich web framework that follows the “batteries-included” philosophy. It provides many built-in features for web development, such as an Object-Relational Mapping (ORM) system, an admin interface, and robust security features. Django is a good choice for larger, more complex projects.",
+    "crumbs": [
+      "Python Track",
+      "Python Web Development: Flask and Django Basics"
+    ]
+  },
+  {
+    "objectID": "python/09-python-web-development.html#creating-web-applications",
+    "href": "python/09-python-web-development.html#creating-web-applications",
+    "title": "Python Web Development: Flask and Django Basics",
+    "section": "9.2 Creating Web Applications",
+    "text": "9.2 Creating Web Applications\n\nRouting: Web frameworks allow you to define URL routes, which map specific URLs to functions in your Python code. For example, you can specify that when a user visits “/home,” a particular function should be executed to handle that request.\nTemplates: Web frameworks typically support templates that allow you to separate the HTML and Python code. This separation makes it easier to maintain and modify the user interface of your web application.\nDatabase Integration: You can connect your web application to a database using the framework’s database tools. This enables you to store and retrieve data, making your web application dynamic and interactive.",
+    "crumbs": [
+      "Python Track",
+      "Python Web Development: Flask and Django Basics"
+    ]
+  },
+  {
+    "objectID": "python/09-python-web-development.html#handling-http-requests-and-responses",
+    "href": "python/09-python-web-development.html#handling-http-requests-and-responses",
+    "title": "Python Web Development: Flask and Django Basics",
+    "section": "9.3 Handling HTTP Requests and Responses",
+    "text": "9.3 Handling HTTP Requests and Responses\n\nHTTP Requests: Web applications receive HTTP requests from clients (usually web browsers). These requests can include various methods (e.g., GET, POST, PUT) and data (form data, query parameters). Your Python code can extract and process this information to determine how to respond.\nHTTP Responses: After processing a request, your web application generates an HTTP response to send back to the client. This response includes data (HTML, JSON, etc.) and metadata (status codes, headers) that inform the client about the result of the request.\n\n\n\nShow code\nfrom flask import Flask\n\napp = Flask(__name)\n\n@app.route('/')\ndef hello_world():\n    return 'Hello, World!'\n\nif __name__ == '__main__':\n    app.run()\n\n\n\n\n\n  Get new notebooks as they're published\n  New parts are added to each track in order. Follow along:\n  \n    RSS feed\n    LinkedIn\n    GitHub",
+    "crumbs": [
+      "Python Track",
+      "Python Web Development: Flask and Django Basics"
+    ]
+  },
+  {
+    "objectID": "time-series/02-stationarity.html#types-of-stationarity",
+    "href": "time-series/02-stationarity.html#types-of-stationarity",
+    "title": "Stationarity in Time Series Analysis",
+    "section": "2.1 Types of Stationarity",
+    "text": "2.1 Types of Stationarity\n\nWeak Stationarity: Requires only that the mean, variance, and auto-correlation remain constant over time. and the joint probability distribution may change over time.\nStrict Stationarity: A time series is strictly stationary when its entire joint probability distribution remains unchanged regardless of the time period, encompassing all properties of weak stationarity.\nNon-Stationary: A non-stationary series shows changing patterns like trends or seasonality and often needs transformation before modeling\n\n\n\nShow code\n# load indian stocks nifty50 data\n\nimport yfinance as yf\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nimport warnings\nwarnings.filterwarnings('ignore')\n\n# Download NIFTY 50 data\nnifty_50 = yf.download(\n    \"^NSEI\",\n    start=\"2025-01-01\",\n    end=\"2026-01-01\",\n    auto_adjust=False\n)\n\nnifty_50.head()\n\n\n\n    \n\n\n\n\n\nPrice\nAdj Close\nClose\nHigh\nLow\nOpen\nVolume\n\n\nTicker\n^NSEI\n^NSEI\n^NSEI\n^NSEI\n^NSEI\n^NSEI\n\n\nDate\n\n\n\n\n\n\n\n\n\n\n2025-01-01\n23742.900391\n23742.900391\n23822.800781\n23562.800781\n23637.650391\n154900\n\n\n2025-01-02\n24188.650391\n24188.650391\n24226.699219\n23751.550781\n23783.000000\n283200\n\n\n2025-01-03\n24004.750000\n24004.750000\n24196.449219\n23976.000000\n24196.400391\n312300\n\n\n2025-01-06\n23616.050781\n23616.050781\n24089.949219\n23551.900391\n24045.800781\n278100\n\n\n2025-01-07\n23707.900391\n23707.900391\n23795.199219\n23637.800781\n23679.900391\n262300\n\n\n\n\n\n    \n\n  \n    \n\n  \n    \n  \n    \n\n  \n\n    \n  \n\n\n    \n  \n\n\n\n\nShow code\nimport numpy as np\nimport matplotlib.pyplot as plt\n\n# Set seed for reproducibility\nnp.random.seed(42)\ntime = np.arange(1, 201)\n\n# --- 1. Stationary Series (Constant Mean, Variance, and Autocovariance) ---\nnoise_stationary = np.random.normal(0, 1, len(time))\nseries_stationary = np.zeros(len(time))\n# Create a stationary AR(1) process: y_t = 0.5 * y_{t-1} + e_t\nfor t in range(1, len(time)):\n    series_stationary[t] = 0.5 * series_stationary[t-1] + noise_stationary[t]\n\n# --- 2. Non-Stationary: Changing Mean (Trend exists) ---\nseries_trend = 0.1 * time + np.random.normal(0, 1, len(time))\n\n# --- 3. Non-Stationary: Changing Variance (Heteroscedasticity) ---\n# Spread increases exponentially or linearly over time\nvariance_scale = 0.03 * time\nseries_variance = np.random.normal(0, 1, len(time)) * variance_scale\n\n# --- 4. Non-Stationary: Changing Covariance (Structural Change) ---\n# Low frequency dependency in first half, high frequency in second half\nseries_covariance = np.zeros(len(time))\nfor t in range(1, len(time)):\n    if t &lt; 100:\n        series_covariance[t] = 0.9 * series_covariance[t-1] + np.random.normal(0, 0.5)\n    else:\n        series_covariance[t] = -0.8 * series_covariance[t-1] + np.random.normal(0, 0.5)\n\n# --- Plotting the grid comparing Stationary vs. Non-Stationary ---\nfig, axes = plt.subplots(2, 2, figsize=(16, 10))\n\n# Subplot 1: Stationary\naxes[0, 0].plot(time, series_stationary, color='forestgreen', alpha=0.85)\naxes[0, 0].axhline(y=0, color='black', linestyle='--', alpha=0.7, label='Constant Mean (0)')\naxes[0, 0].set_title('Stationary: Constant Mean & Constant Spread', fontsize=12, fontweight='bold')\naxes[0, 0].set_ylabel('Value')\naxes[0, 0].legend(loc='upper left')\naxes[0, 0].grid(True, linestyle=':', alpha=0.6)\n\n# Subplot 2: Non-Stationary - Changing Mean\naxes[0, 1].plot(time, series_trend, color='darkorange', alpha=0.85)\naxes[0, 1].plot(time, 0.1 * time, color='black', linestyle='--', label='Changing Mean (Trend)')\naxes[0, 1].set_title('Non-Stationary: Changing Mean (Trend)', fontsize=12, fontweight='bold')\naxes[0, 1].legend(loc='upper left')\naxes[0, 1].grid(True, linestyle=':', alpha=0.6)\n\n# Subplot 3: Non-Stationary - Changing Variance\naxes[1, 0].plot(time, series_variance, color='crimson', alpha=0.85)\naxes[1, 0].plot(time, 2 * variance_scale, color='black', linestyle=':', label='+2 Std Dev')\naxes[1, 0].plot(time, -2 * variance_scale, color='black', linestyle=':', label='-2 Std Dev')\naxes[1, 0].set_title('Non-Stationary: Changing Variance (Unstable Spread)', fontsize=12, fontweight='bold')\naxes[1, 0].set_xlabel('Time')\naxes[1, 0].set_ylabel('Value')\naxes[1, 0].legend(loc='upper left')\naxes[1, 0].grid(True, linestyle=':', alpha=0.6)\n\n# Subplot 4: Non-Stationary - Changing Covariance\naxes[1, 1].plot(time, series_covariance, color='purple', alpha=0.85)\naxes[1, 1].axvline(x=100, color='red', linestyle='--', label='Structural Change Point')\naxes[1, 1].set_title('Non-Stationary: Changing Autocovariance', fontsize=12, fontweight='bold')\naxes[1, 1].set_xlabel('Time')\naxes[1, 1].legend(loc='upper left')\naxes[1, 1].grid(True, linestyle=':', alpha=0.6)\n\nplt.suptitle('Stationary vs. Non-Stationary Behaviors', fontsize=16, fontweight='bold', y=0.98)\nplt.tight_layout()\nplt.show()",
+    "crumbs": [
+      "Time Series Track",
+      "Stationarity in Time Series Analysis"
+    ]
+  },
+  {
+    "objectID": "time-series/02-stationarity.html#stationarity-tests-in-time-series-analysis",
+    "href": "time-series/02-stationarity.html#stationarity-tests-in-time-series-analysis",
+    "title": "Stationarity in Time Series Analysis",
+    "section": "2.2 Stationarity Tests in Time Series Analysis",
+    "text": "2.2 Stationarity Tests in Time Series Analysis\n\n2.2.1 Weak Stationarity Tests\nThe two most common statistical tests for verifying weak stationarity are:\n\nADF (Augmented Dickey-Fuller) Test\nADF is a statistical test used to check whether a time series has a unit root (a non-stationary trend), which indicates that the series is non-stationary. * H_0 (Null Hypothesis): The series is non-stationary (contains a unit root). * H_1 (Alternative Hypothesis): The series is stationary. * Decision Rule: p\\text{-value} &lt; 0.05 \\rightarrow Reject H_0 \\rightarrow The series is likely stationary.\n\n\nKPSS (Kwiatkowski–Phillips–Schmidt–Shin) Test\nKPSS is a statistical test used to check whether a time series is stationary around a constant mean or a deterministic trend. * H_0 (Null Hypothesis): The series is stationary. * H_1 (Alternative Hypothesis): The series is non-stationary. * Decision Rule: p\\text{-value} &lt; 0.05 \\rightarrow Reject H_0 \\rightarrow The series is likely non-stationary.\n\n\n\n2.2.2 Strict Stationarity Tests\n\nKolmogorov-Smirnov (K-S) Test\nThe Kolmogorov-Smirnov test is specifically used to check for strict stationarity by comparing the cumulative distribution functions (CDFs) of two different samples within the time series. * Methodology: It splits the time series into separate sub-samples and compares their distributions. * Decision Rule: A high p\\text{-value} (&gt; 0.05) suggests there is no statistically significant difference in distribution between the samples, implying strict stationarity.\n\n\nShow code\nimport pandas as pd\nimport numpy as np\nfrom statsmodels.tsa.stattools import adfuller\n\nclose_prices = nifty_50['Close'].dropna()\n\n\n# 1. Augmented Dickey-Fuller (ADF) Test (Weak Stationarity)\nprint(\"\\n--- [1] Augmented Dickey-Fuller (ADF) Test ---\")\nadf_result = adfuller(close_prices)\nprint(f\"ADF Statistic: {adf_result[0]:.4f}\")\nprint(f\"p-value: {adf_result[1]:.4f}\")\nprint(\"Critical Values:\")\nfor key, value in adf_result[4].items():\n    print(f\"   {key}: {value:.4f}\")\n\nif adf_result[1] &lt; 0.05:\n    print(\"Conclusion: Reject H₀. The series is likely STATIONARY.\")\nelse:\n    print(\"Conclusion: Fail to reject H₀. The series is likely NON-STATIONARY.\")\n\n\n\n--- [1] Augmented Dickey-Fuller (ADF) Test ---\nADF Statistic: -0.9981\np-value: 0.7539\nCritical Values:\n   1%: -3.4570\n   5%: -2.8733\n   10%: -2.5730\nConclusion: Fail to reject H₀. The series is likely NON-STATIONARY.\n\n\n\n\nShow code\nfrom statsmodels.tsa.stattools import kpss\n\n# Drop any missing values and squeeze to ensure it is 1-dimensional\nclose_prices = nifty_50['Close'].dropna().squeeze()\n\n# 2. KPSS Test (Weak Stationarity)\nprint(\"\\n--- [2] KPSS Test ---\")\n\n# 'ct' specifies stationary around a trend, 'c' around a constant mean\nkpss_result = kpss(close_prices, regression='c', nlags='auto')\nprint(f\"KPSS Statistic: {kpss_result[0]:.4f}\")\nprint(f\"p-value: {kpss_result[1]:.4f}\")\nprint(\"Critical Values:\")\nfor key, value in kpss_result[3].items():\n    print(f\"   {key}: {value:.4f}\")\n\nif kpss_result[1] &lt; 0.05:\n    print(\"Conclusion: Reject H₀. The series is likely NON-STATIONARY.\")\nelse:\n    print(\"Conclusion: Fail to reject H₀. The series is likely STATIONARY.\")\n\n\n\n--- [2] KPSS Test ---\nKPSS Statistic: 1.9127\np-value: 0.0100\nCritical Values:\n   10%: 0.3470\n   5%: 0.4630\n   2.5%: 0.5740\n   1%: 0.7390\nConclusion: Reject H₀. The series is likely NON-STATIONARY.\n\n\n\n\nShow code\nfrom scipy.stats import ks_2samp\n\n# Drop any missing values and squeeze to ensure it is 1-dimensional\nclose_prices = nifty_50['Close'].dropna().squeeze()\n\n# 3. Kolmogorov-Smirnov (K-S) Test (Strict Stationarity)\nprint(\"\\n--- [3] Kolmogorov-Smirnov (K-S) Test ---\")\n\n# Split the series into two halves to compare their probability distributions\nmidpoint = len(close_prices) // 2\nsample_1 = close_prices.iloc[:midpoint]\nsample_2 = close_prices.iloc[midpoint:]\n\nks_stat, ks_p_value = ks_2samp(sample_1, sample_2)\nprint(f\"KS Statistic: {ks_stat:.4f}\")\nprint(f\"p-value: {ks_p_value:.4e}\")\n\nif ks_p_value &gt; 0.05:\n    print(\"Conclusion: High p-value. Cumulative distributions are similar (suggests STRICT STATIONARITY).\")\nelse:\n    print(\"Conclusion: Low p-value. Cumulative distributions are significantly different (NON-STATIONARY).\")\n\n\n\n--- [3] Kolmogorov-Smirnov (K-S) Test ---\nKS Statistic: 0.6856\np-value: 2.6273e-28\nConclusion: Low p-value. Cumulative distributions are significantly different (NON-STATIONARY).",
+    "crumbs": [
+      "Time Series Track",
+      "Stationarity in Time Series Analysis"
+    ]
+  }
+]

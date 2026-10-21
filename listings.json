@@ -1,0 +1,58 @@
+[
+  {
+    "listing": "/time-series/index.html",
+    "items": [
+      "/time-series/01-time-series-analysis.html",
+      "/time-series/02-stationarity.html",
+      "/time-series/03-white-noise-and-random-walks.html"
+    ]
+  },
+  {
+    "listing": "/articles.html",
+    "items": [
+      "/time-series/03-white-noise-and-random-walks.html",
+      "/time-series/02-stationarity.html",
+      "/time-series/01-time-series-analysis.html",
+      "/python/01-python-basics-variables-and-data-types.html",
+      "/python/02-python-control-flow.html",
+      "/python/03-python-functions-and-modules.html",
+      "/python/04-python-data-structures-and-collections.html",
+      "/python/05-python-file-handling.html",
+      "/python/06-python-error-handling-and-exceptions.html",
+      "/python/07-python-object-oriented-programming.html",
+      "/python/08-python-working-with-data.html",
+      "/python/09-python-web-development.html"
+    ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/time-series/01-time-series-analysis.html",
+      "/time-series/02-stationarity.html",
+      "/time-series/03-white-noise-and-random-walks.html",
+      "/python/01-python-basics-variables-and-data-types.html",
+      "/python/02-python-control-flow.html",
+      "/python/03-python-functions-and-modules.html",
+      "/python/04-python-data-structures-and-collections.html",
+      "/python/05-python-file-handling.html",
+      "/python/06-python-error-handling-and-exceptions.html",
+      "/python/07-python-object-oriented-programming.html",
+      "/python/08-python-working-with-data.html",
+      "/python/09-python-web-development.html"
+    ]
+  },
+  {
+    "listing": "/python/index.html",
+    "items": [
+      "/python/01-python-basics-variables-and-data-types.html",
+      "/python/02-python-control-flow.html",
+      "/python/03-python-functions-and-modules.html",
+      "/python/04-python-data-structures-and-collections.html",
+      "/python/05-python-file-handling.html",
+      "/python/06-python-error-handling-and-exceptions.html",
+      "/python/07-python-object-oriented-programming.html",
+      "/python/08-python-working-with-data.html",
+      "/python/09-python-web-development.html"
+    ]
+  }
+]

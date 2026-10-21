@@ -1,0 +1,1353 @@
+/* ============================================================
+   Gujuri Alekha | Blog
+   Implements DESIGN.md ("editorial research, SaaS-grade chrome").
+   Token names mirror the DESIGN.md YAML; change values there first.
+   Fonts load in includes/seo_header.html; Bootstrap variables live in
+   theme-light.scss / theme-dark.scss.
+   ============================================================ */
+
+/* ─────────────── 1. Tokens ─────────────── */
+:root {
+  --color-primary: #4F46E5;
+  --color-primary-ui: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-primary-subtle: #F1F0FD;
+  --color-on-primary: #FFFFFF;
+  --color-canvas: #FFFFFF;
+  --color-canvas-glass: rgba(255, 255, 255, 0.85);
+  --color-surface: #F8FAFC;
+  --color-surface-raised: #F1F5F9;
+  --color-hairline: #E2E8F0;
+  --color-hairline-strong: #CBD5E1;
+  --color-ink: #0F172A;
+  --color-body: #334155;
+  --color-muted: #5F6B7D;
+  --color-success: #047857;
+  --color-warning: #A44B08;
+  --color-danger: #B91C1C;
+  --tint: 8%;
+
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Source Serif 4", Charter, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Consolas, monospace;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --shadow-lifted: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 16px -6px rgba(15, 23, 42, 0.10);
+  --shadow-overlay: 0 16px 40px -12px rgba(15, 23, 42, 0.25);
+
+  --container-width: 1200px;
+  --prose-width: 680px;
+  --nav-height: 60px;
+
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+}
+
+body.quarto-dark {
+  --color-primary: #A5B4FC;
+  --color-primary-ui: #818CF8;
+  --color-primary-hover: #C7D2FE;
+  --color-primary-subtle: #1A1E29;
+  --color-on-primary: #0B0D12;
+  --color-canvas: #0B0D12;
+  --color-canvas-glass: rgba(11, 13, 18, 0.85);
+  --color-surface: #12151C;
+  --color-surface-raised: #181C25;
+  --color-hairline: #232836;
+  --color-hairline-strong: #2F3545;
+  --color-ink: #E8EAF0;
+  --color-body: #B6BDCB;
+  --color-muted: #8A93A6;
+  --color-success: #34D399;
+  --color-warning: #FBBF24;
+  --color-danger: #F87171;
+  --tint: 10%;
+  --shadow-lifted: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --shadow-overlay: 0 16px 40px -12px rgba(0, 0, 0, 0.6);
+}
+
+
+/* ─────────────── 2. Base ─────────────── */
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: -0.011em;
+  color: var(--color-body);
+  background-color: var(--color-canvas);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--color-primary-hover); }
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+::selection { background: var(--color-primary-subtle); color: var(--color-ink); }
+
+strong, b { font-weight: 600; }
+
+/* Shared atoms */
+.eyebrow,
+.meta-mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0;
+}
+.eyebrow { color: var(--color-primary); }
+.meta-mono { color: var(--color-muted); }
+
+.text-link {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.tag-pill,
+.listing-category,
+.quarto-category {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  line-height: 1.4;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-body);
+  border: 1px solid var(--color-hairline);
+  opacity: 1;
+}
+.listing-category { cursor: pointer; transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+.listing-category:hover { background: var(--color-primary-subtle); color: var(--color-primary); }
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+
+
+/* ─────────────── 3. Buttons ─────────────── */
+.btn-ui {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out),
+              border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.btn-ui:active { transform: scale(0.98); }
+
+.btn-ui-primary { background: var(--color-primary-ui); color: var(--color-on-primary); }
+.btn-ui-primary:hover { background: var(--color-primary-hover); color: var(--color-on-primary); }
+body.quarto-dark .btn-ui-primary:hover { background: var(--color-primary); }
+
+.btn-ui-secondary { background: var(--color-canvas); color: var(--color-ink); border-color: var(--color-hairline-strong); }
+.btn-ui-secondary:hover { background: var(--color-surface); color: var(--color-ink); }
+
+.btn-ui-ghost { background: transparent; color: var(--color-body); padding: 0 12px; }
+.btn-ui-ghost:hover { background: var(--color-surface-raised); color: var(--color-ink); }
+
+
+/* ─────────────── 4. Navbar ─────────────── */
+/* Brand: the AG favicon mark + name + a soft "Blog" label. Search is a field with a "/" hint,
+   icons are quiet, and "Portfolio" is the one filled button. Brand colours = the favicon's. */
+:root {
+  --nav-label: #1D4ED8;
+  --nav-label-bg: rgba(37, 99, 235, 0.08);
+  --nav-label-border: rgba(37, 99, 235, 0.22);
+  --nav-cta: linear-gradient(135deg, #2563EB 0%, #0E7490 100%); /* white text 4.5:1+ at both ends */
+  --nav-glow: rgba(37, 99, 235, 0.45);
+}
+body.quarto-dark {
+  --nav-label: #7DD3FC;
+  --nav-label-bg: rgba(34, 211, 238, 0.10);
+  --nav-label-border: rgba(34, 211, 238, 0.28);
+  --nav-glow: rgba(34, 211, 238, 0.30);
+}
+
+#quarto-header .navbar {
+  min-height: var(--nav-height);
+  padding-top: 0;
+  padding-bottom: 0;
+  background: var(--color-canvas-glass) !important;
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  border-bottom: 1px solid var(--color-hairline);
+  box-shadow: none;
+}
+/* Brand-gradient hairline along the bottom edge */
+#quarto-header .navbar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(37, 99, 235, 0.55) 30%, rgba(34, 211, 238, 0.55) 70%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Brand */
+#quarto-header .navbar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#quarto-header .navbar-brand::before {
+  content: "";
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: url("https://gujurialekha.github.io/favicon.svg") center / cover no-repeat;
+  box-shadow: 0 4px 14px -4px var(--nav-glow), 0 0 0 1px rgba(37, 99, 235, 0.18);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+#quarto-header .navbar-brand:hover::before { transform: rotate(-6deg) scale(1.05); }
+/* Wordmark: Space Grotesk Bold, the portfolio's display font (loaded in includes/seo_header.html) */
+#quarto-header .navbar-title {
+  font-family: "Space Grotesk", var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-ink);
+}
+#quarto-header .navbar-brand::after {
+  content: "Blog";
+  padding: 2px 9px;
+  font: 600 12px/1.45 var(--font-sans);
+  letter-spacing: 0.02em;
+  color: var(--nav-label);
+  background: var(--nav-label-bg);
+  border: 1px solid var(--nav-label-border);
+  border-radius: 999px;
+}
+
+/* Section links */
+#quarto-header .navbar .nav-link {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--color-body);
+  padding: 7px 12px;
+  border-radius: 8px;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+#quarto-header .navbar .nav-link:hover {
+  color: var(--color-ink);
+  background: var(--color-surface-raised);
+}
+#quarto-header .navbar .nav-link.active,
+#quarto-header .navbar .nav-link.active .menu-text {
+  color: var(--color-ink);
+}
+#quarto-header .navbar .bi { font-size: 17px; }
+
+/* Right-hand controls share one 36px box */
+#quarto-header .navbar-nav.ms-auto .nav-link,
+#quarto-header .quarto-color-scheme-toggle,
+#quarto-header .aa-DetachedSearchButton {
+  height: 36px;
+  min-width: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px !important;
+  border-radius: 8px !important;
+}
+#quarto-header .navbar-nav.ms-auto .nav-link,
+#quarto-header .quarto-color-scheme-toggle { color: var(--color-muted); }
+#quarto-header .navbar-nav.ms-auto .nav-link:hover,
+#quarto-header .quarto-color-scheme-toggle:hover { color: var(--color-ink); background: var(--color-surface-raised); }
+
+/* Dark-mode toggle: a bordered button like the search field, with a crisp moon (light mode) or sun
+   (dark mode). The icon is an SVG mask filled with currentColor, so it follows the theme colours. */
+#quarto-header .quarto-color-scheme-toggle {
+  width: 36px;
+  border: 1px solid var(--color-hairline);
+  background: var(--color-surface);
+  color: var(--color-body);
+  transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+#quarto-header .quarto-color-scheme-toggle:hover {
+  border-color: var(--color-hairline-strong);
+  background: var(--color-surface);
+  color: var(--nav-label);
+}
+#quarto-header .quarto-color-scheme-toggle .bi::before {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 18px;
+  background: currentColor !important;
+  -webkit-mask: var(--nav-theme-icon) center / contain no-repeat;
+  mask: var(--nav-theme-icon) center / contain no-repeat;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+#quarto-header .quarto-color-scheme-toggle:hover .bi::before { transform: rotate(-20deg); }
+#quarto-header .quarto-color-scheme-toggle {
+  --nav-theme-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='black' fill-opacity='.18' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'/%3E%3C/svg%3E");
+}
+#quarto-header .quarto-color-scheme-toggle.alternate {
+  --nav-theme-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='4' fill='black' fill-opacity='.18'/%3E%3Cpath d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41'/%3E%3C/svg%3E");
+}
+
+/* "Portfolio": the one filled button; the arrow says it leaves the blog */
+#quarto-header .navbar-nav.ms-auto .nav-item:last-child .nav-link {
+  margin-left: 8px;
+  padding: 0 14px !important;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff !important;
+  background: var(--nav-cta);
+  border-radius: 10px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 12px -4px var(--nav-glow);
+  transition: filter var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+#quarto-header .navbar-nav.ms-auto .nav-item:last-child .nav-link .menu-text { color: inherit; }
+#quarto-header .navbar-nav.ms-auto .nav-item:last-child .nav-link::after {
+  content: "\2197"; /* north-east arrow */
+  margin-left: 6px;
+  font-size: 13px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+#quarto-header .navbar-nav.ms-auto .nav-item:last-child .nav-link:hover {
+  filter: brightness(1.08);
+  background: var(--nav-cta);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 6px 16px -4px var(--nav-glow);
+}
+#quarto-header .navbar-nav.ms-auto .nav-item:last-child .nav-link:hover::after { transform: translate(2px, -2px); }
+
+/* Search: an icon button on small screens */
+.aa-DetachedSearchButton {
+  border: 0 !important;
+  background: transparent !important;
+}
+.aa-DetachedSearchButton:hover { background: var(--color-surface-raised) !important; }
+.aa-DetachedSearchButtonIcon { color: var(--color-muted) !important; }
+#quarto-header .aa-DetachedSearchButton { width: 36px; }
+#quarto-header .aa-DetachedSearchButtonIcon svg { width: 16px; height: 16px; }
+
+/* Phones and tablets: keep menu button, brand, theme and search on one row */
+@media (max-width: 991.98px) {
+  #quarto-header .navbar-toggler { padding: 4px 6px; flex: none; margin-right: 6px; border: 0; border-radius: 8px; }
+  /* Focus ring for keyboard users only, not after a tap */
+  #quarto-header .navbar-toggler:focus { box-shadow: none; }
+  #quarto-header .navbar-toggler:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; }
+  /* The brand takes the leftover width (basis 0), so only the menu wraps to its own row */
+  #quarto-header .navbar-brand-container { flex: 1 1 0; min-width: 0; }
+  /* Stacked lockup: mark on the left, name over a small "BLOG" line (no extra width needed) */
+  #quarto-header .navbar-brand {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 9px;
+    align-items: center;
+    min-width: 0;
+  }
+  #quarto-header .navbar-brand::before { grid-row: 1 / span 2; width: 34px; height: 34px; border-radius: 9px; }
+  #quarto-header .navbar-title {
+    grid-column: 2;
+    align-self: end;
+    font-size: 18px;
+    line-height: 1.1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #quarto-header .navbar-brand::after {
+    grid-column: 2;
+    align-self: start;
+    justify-self: start;
+    padding: 0;
+    font: 700 10px/1.4 var(--font-sans);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    background: none;
+    border: 0;
+  }
+  #quarto-header #quarto-search.type-overlay .aa-Autocomplete { width: 36px; }
+  #quarto-header #quarto-search,
+  #quarto-header .quarto-navbar-tools { flex: none; margin: 0; }
+  #quarto-header #quarto-search { margin-left: 6px; }
+  /* Search matches the bordered theme button next to it */
+  #quarto-header .aa-DetachedSearchButton {
+    border: 1px solid var(--color-hairline) !important;
+    background: var(--color-surface) !important;
+  }
+}
+/* Narrowest phones (320px): slightly smaller wordmark so the full name fits */
+@media (max-width: 359.98px) {
+  #quarto-header .navbar-container { padding-left: 10px; padding-right: 10px; }
+  #quarto-header .navbar-title { font-size: 15px; }
+  #quarto-header .navbar-brand { column-gap: 7px; }
+  #quarto-header .navbar-brand::before { width: 28px; height: 28px; border-radius: 8px; }
+  #quarto-header .navbar-toggler { margin-right: 2px; }
+  #quarto-header #quarto-search { margin-left: 4px; }
+}
+
+@media (min-width: 992px) {
+  /* Desktop order: brand, menu ... search, theme, GitHub, LinkedIn, Portfolio. Quarto gives the brand
+     order 2 and puts search and the theme toggle after the right-hand menu, so flatten the collapse
+     wrapper and reorder with flex. */
+  #quarto-header .navbar-collapse { display: contents !important; }
+  #quarto-header .navbar-nav.me-auto { order: 3; margin: 0 auto 0 28px !important; gap: 2px; }
+  #quarto-header #quarto-search { order: 4; margin: 0 6px 0 0; }
+  #quarto-header .quarto-navbar-tools { order: 5; margin: 0 2px; }
+  #quarto-header .navbar-nav.ms-auto { order: 6; margin-left: 0 !important; align-items: center; }
+
+  /* Current section: a short brand-gradient bar on the navbar's bottom edge */
+  #quarto-header .navbar-nav.me-auto .nav-link { position: relative; }
+  #quarto-header .navbar-nav.me-auto .nav-link.active:not(.dropdown-toggle)::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: -13px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #2563EB, #22D3EE);
+  }
+
+  /* Search becomes a field with a "/" shortcut hint (Quarto pins its container to 40px) */
+  #quarto-header #quarto-search.type-overlay .aa-Autocomplete { width: auto; }
+  #quarto-header .aa-DetachedSearchButton {
+    width: 210px;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 0 8px 0 11px !important;
+    border: 1px solid var(--color-hairline) !important;
+    background: var(--color-surface) !important;
+    border-radius: 10px !important;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  #quarto-header .aa-DetachedSearchButton:hover { border-color: var(--color-hairline-strong) !important; }
+  #quarto-header .aa-DetachedSearchButtonPlaceholder {
+    display: inline !important;
+    font: 400 13.5px var(--font-sans);
+    color: var(--color-muted);
+  }
+  #quarto-header .aa-DetachedSearchButtonPlaceholder:empty::before { content: "Search articles"; }
+  #quarto-header .aa-DetachedSearchButton::after {
+    content: "/";
+    margin-left: auto;
+    padding: 0 6px;
+    font: 500 11px/18px var(--font-mono);
+    color: var(--color-muted);
+    background: var(--color-canvas);
+    border: 1px solid var(--color-hairline-strong);
+    border-radius: 5px;
+  }
+}
+
+/* Tracks menu (generated by scripts/sync_tracks.py): header, one row per track with an icon tile
+   and part count, a divider, then the roadmap link */
+#quarto-header .dropdown-menu {
+  border: 1px solid var(--color-hairline);
+  border-radius: 14px;
+  box-shadow: var(--shadow-overlay);
+  background: var(--color-canvas);
+  padding: 8px;
+  min-width: 290px;
+}
+@media (min-width: 992px) {
+  #quarto-header .dropdown-menu { margin-top: 12px !important; animation: nav-menu-in var(--dur-base) var(--ease-out); }
+}
+@keyframes nav-menu-in { from { opacity: 0; transform: translateY(-4px); } }
+#quarto-header .dropdown-header {
+  padding: 6px 10px 8px;
+  font: 600 11px/1.4 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+#quarto-header .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--color-ink);
+  border-radius: 10px;
+  white-space: normal;
+}
+#quarto-header .dropdown-item .dropdown-text { display: flex; align-items: center; gap: 8px; flex: 1; }
+#quarto-header .dropdown-item .bi {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  color: var(--nav-label);
+  background: var(--nav-label-bg);
+  border: 1px solid var(--nav-label-border);
+  border-radius: 9px;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+#quarto-header .dropdown-item .menu-count {
+  margin-left: auto;
+  padding: 1px 8px;
+  font: 500 11.5px/1.6 var(--font-mono);
+  color: var(--color-muted);
+  background: var(--color-surface-raised);
+  border-radius: 999px;
+}
+#quarto-header .dropdown-item:hover,
+#quarto-header .dropdown-item:focus {
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+}
+#quarto-header .dropdown-item:hover .bi,
+#quarto-header .dropdown-item:focus .bi {
+  color: #fff;
+  background: var(--nav-cta);
+  border-color: transparent;
+}
+#quarto-header .dropdown-divider { margin: 6px 4px; border-color: var(--color-hairline); opacity: 1; }
+/* The roadmap link closes the menu: quieter text, same icon tile */
+#quarto-header .dropdown-menu li:last-child .dropdown-item { font-size: 13.5px; color: var(--color-body); }
+
+@media (prefers-reduced-motion: reduce) {
+  #quarto-header .navbar-brand::before,
+  #quarto-header .quarto-color-scheme-toggle .bi::before,
+  #quarto-header .navbar-nav.ms-auto .nav-item:last-child .nav-link::after { transition: none; }
+  #quarto-header .dropdown-menu { animation: none; }
+}
+
+/* Search overlay */
+.aa-DetachedOverlay .aa-DetachedContainer,
+.aa-Panel {
+  border-radius: var(--radius-lg) !important;
+  border: 1px solid var(--color-hairline) !important;
+  box-shadow: var(--shadow-overlay) !important;
+}
+
+
+/* ─────────────── 5. Homepage ─────────────── */
+.page-layout-custom #quarto-document-content { padding-top: 0; }
+
+.home {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.home-hero {
+  max-width: 760px;
+  padding: 96px 0 64px;
+}
+.home-title {
+  font-size: clamp(36px, 5vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+  margin: 16px 0 20px;
+}
+.home-dek {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--color-body);
+  max-width: 640px;
+  margin: 0 0 32px;
+}
+.home-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.home-section {
+  padding: 64px 0;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.section-head { margin-bottom: 32px; max-width: 640px; }
+.section-head-row {
+  max-width: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+.section-title {
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 8px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Titles inside cards, rows and the roadmap: weight 600, no link underline */
+.track-card-title, .post-row-title, main.content h3.roadmap-title, main.content h3 { font-weight: 600; }
+.track-card a, .post-row a, .roadmap a, .btn-ui, .author-card a { text-decoration: none !important; }
+.track-card-title a, .post-row-title a, .roadmap-title a,
+.quarto-listing-default .listing-title, .quarto-listing-default .listing-title a { font-weight: 600; }
+.section-desc { margin: 0; color: var(--color-body); }
+
+/* Track cards */
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: 24px;
+}
+.track-grid .quarto-listing { margin: 0; }
+
+.track-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+  padding: 24px;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  transition: box-shadow var(--dur-base) var(--ease-spring), border-color var(--dur-base) var(--ease-spring);
+}
+.track-card:hover { box-shadow: var(--shadow-lifted); border-color: var(--color-hairline-strong); }
+.track-card-title {
+  font-size: 21px;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  margin: 8px 0 6px;
+}
+.track-card-title a { color: var(--color-ink); }
+.track-card-title a:hover { color: var(--color-primary); }
+.track-card-desc { font-size: 14px; line-height: 1.5; margin: 0 0 10px; }
+
+.track-card-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--color-hairline);
+}
+.track-card-steps li {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-hairline);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.track-card-steps a { color: var(--color-ink); font-weight: 500; }
+.track-card-steps a:hover { color: var(--color-primary); }
+.step-num {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-muted);
+}
+.track-card-more { margin-top: -8px; }
+.track-card-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; }
+
+/* Post rows */
+.post-rows { border-top: 1px solid var(--color-hairline); }
+.post-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--color-hairline);
+}
+.post-row-date {
+  margin: 3px 0 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+.post-row-title {
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  margin: 0 0 6px;
+}
+.post-row-title a { color: var(--color-ink); }
+.post-row-title a::after { content: ""; position: absolute; inset: 0; } /* whole row is the link */
+.post-row:hover .post-row-title a { color: var(--color-primary); }
+.post-row-desc { font-size: 14px; line-height: 1.5; margin: 0 0 8px; }
+.post-row-meta,
+.roadmap-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Author card */
+.author-card {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-xl);
+}
+.author-avatar {
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-hairline);
+  object-fit: cover;
+}
+.author-card-lg .author-avatar { width: 72px; height: 72px; }
+.author-name {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  margin: 0 0 2px;
+}
+.author-bio { margin: 10px 0 12px; max-width: 640px; color: var(--color-body); }
+.author-links { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px; margin-left: -12px; }
+.author-card-lg { margin-bottom: 32px; }
+.author-card-lg .author-links { margin-left: 0; gap: 8px; }
+
+
+/* ─────────────── 6. Track roadmap page ─────────────── */
+.track-facts {
+  padding: 20px 24px;
+  margin: 24px 0 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+}
+.track-facts p { margin: 0 0 10px; }
+.track-facts p:last-child { margin-bottom: 0; }
+
+.roadmap {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+}
+.roadmap-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 20px;
+  padding-bottom: 32px;
+}
+.roadmap-step::before { /* connector line between steps */
+  content: "";
+  position: absolute;
+  left: 19px;
+  top: 44px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--color-hairline);
+}
+.roadmap-step:last-child::before { display: none; }
+.roadmap-step:last-child { padding-bottom: 0; }
+.roadmap-marker {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+  border: 1px solid var(--color-hairline);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+.roadmap-part {
+  margin: 2px 0 4px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+main.content h3.roadmap-title {
+  font-size: 21px;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  margin: 0 0 8px;
+}
+.roadmap-title a { color: var(--color-ink); }
+.roadmap-title a:hover { color: var(--color-primary); }
+.roadmap-desc { margin: 0 0 10px; }
+.roadmap-meta .tag-pill { text-transform: lowercase; letter-spacing: 0.02em; }
+
+
+/* ─────────────── 7. Page title block (all non-home pages) ─────────────── */
+#title-block-header { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--color-hairline); }
+
+#title-block-header .article-eyebrow {
+  margin: 0 0 12px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.article-eyebrow a { color: var(--color-primary); }
+.article-eyebrow a:hover { color: var(--color-primary-hover); }
+
+#title-block-header h1.title {
+  font-size: clamp(32px, 4vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+
+#title-block-header .description,
+#title-block-header .description p {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  line-height: 1.55;
+  color: var(--color-body);
+  margin-bottom: 0;
+}
+
+#title-block-header .quarto-categories { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 16px; }
+#title-block-header .quarto-categories .quarto-category {
+  margin: 0;
+  font-size: 12px;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  opacity: 1;
+}
+
+/* Author · Published as one mono row */
+.quarto-title-meta {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 4px 20px;
+  margin-top: 20px !important;
+}
+.quarto-title-meta-heading { display: none; }
+#title-block-header .quarto-title-meta-contents,
+#title-block-header .quarto-title-meta-contents p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* Quarto's code-tools "Code" menu sits in the title row */
+.quarto-title-tools-only, #quarto-code-tools-menu { font-size: 13px; }
+
+
+/* ─────────────── 8. Article reading experience ─────────────── */
+/* Serif prose for body text only; :where() keeps specificity low so component rules still win */
+body.article main.content :where(p, li, dd, blockquote):not(:where(#title-block-header, .follow-card, .callout, #quarto-appendix, .cell-output) *) {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  line-height: 1.7;
+  letter-spacing: 0;
+  text-wrap: pretty;
+}
+body.article main.content :where(li > p) { margin-bottom: 0.4em; }
+body.article main.content :where(p):not(:where(#title-block-header, .follow-card) *) { margin-bottom: 1.1em; }
+
+main.content h2 {
+  font-size: 28px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-top: 56px;
+  margin-bottom: 16px;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+main.content h3 {
+  font-size: 21px;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  margin-top: 36px;
+  margin-bottom: 12px;
+}
+main.content h4 {
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  margin-top: 28px;
+}
+.header-section-number { color: var(--color-muted) !important; font-weight: 500; margin-right: 4px; }
+main.content :is(h3, h4, h5, h6) { opacity: 1; } /* Quarto fades h3+ to 0.9, which drops muted text below AA */
+
+/* Prose links: subtle underline */
+main.content p a,
+main.content li a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+}
+main.content p a:hover,
+main.content li a:hover { text-decoration-color: currentColor; }
+
+blockquote {
+  border-left: 3px solid var(--color-hairline-strong);
+  padding: 4px 0 4px 20px;
+  color: var(--color-body);
+  margin: 24px 0;
+}
+
+hr { border-color: var(--color-hairline); opacity: 1; }
+
+/* Inline code */
+p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode) {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  background: var(--color-surface-raised);
+  color: var(--color-ink);
+}
+
+
+/* ─────────────── 9. Code cells & output ─────────────── */
+div.sourceCode {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-hairline) !important;
+  border-radius: var(--radius-md) !important;
+  margin: 16px 0;
+}
+div.sourceCode pre.sourceCode { padding: 16px 20px; margin: 0; background: transparent; }
+pre code, pre.sourceCode code {
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.code-copy-button {
+  background: transparent !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--color-muted) !important;
+}
+.code-copy-button:hover { background: var(--color-surface-raised) !important; color: var(--color-ink) !important; }
+
+/* "Show code" chip */
+details.code-fold > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 4px 12px;
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: var(--color-canvas);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+details.code-fold > summary:hover { color: var(--color-ink); border-color: var(--color-hairline-strong); }
+details.code-fold[open] > summary { margin-bottom: 0; }
+
+/* Output: separated from code by a left rule, no fill */
+.cell-output {
+  border-left: 2px solid var(--color-hairline-strong);
+  padding-left: 16px;
+  margin: 12px 0 20px;
+}
+.cell-output pre,
+.cell-output-stdout pre {
+  background: transparent !important;
+  border: none !important;
+  padding: 4px 0 !important;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-body);
+  white-space: pre-wrap;
+}
+.cell-output-display { overflow-x: auto; }
+
+/* Syntax colours: github light tokens that fall below 4.5:1 on the code surface (#F8FAFC) */
+/* (Quarto's highlight CSS hard-codes colours per class, so override the classes, not its variables) */
+body.quarto-light code span:is(.at, .bu, .cf, .dt, .ex, .kw, .pp) { color: #CF222E; } /* was #D73A49, 4.37:1 → 5.12:1 */
+body.quarto-light code span.va { color: #B34700; }                                    /* was #E36209, 3.34:1 */
+body.quarto-light code span:is(.al, .er, .wa) { color: #C62828; }                     /* was #FF5555, 3.00:1 */
+
+
+/* ─────────────── 10. Figures, tables, maths, callouts ─────────────── */
+figure, .quarto-figure { margin: 24px 0; }
+main.content img.figure-img,
+.cell-output-display img {
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-md);
+  background: #FFFFFF; /* charts keep a white plate in dark mode */
+}
+figcaption,
+.figure-caption,
+.quarto-float-caption {
+  font-family: var(--font-sans) !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+  color: var(--color-body) !important;
+  margin-top: 10px;
+}
+
+/* Data tables (incl. pandas DataFrames) */
+main.content table {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  border-collapse: collapse;
+  width: auto;
+  max-width: 100%;
+  margin: 16px 0 24px;
+}
+main.content table th,
+main.content table td {
+  padding: 8px 12px;
+  border: none;
+  border-bottom: 1px solid var(--color-hairline);
+  font-family: var(--font-sans) !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+  text-align: right;
+}
+main.content table thead th {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-weight: 500;
+  border-bottom: 1px solid var(--color-hairline-strong);
+}
+main.content table th:first-child,
+main.content table td:first-child { text-align: left; }
+main.content table tbody th { color: var(--color-ink); font-weight: 500; }
+
+.katex-display { overflow-x: auto; overflow-y: hidden; padding: 4px 0; margin: 24px 0; }
+.katex { font-size: 1.05em; }
+
+/* Callouts */
+.callout {
+  border: 1px solid var(--color-hairline) !important;
+  border-left: 3px solid var(--callout-color, var(--color-primary)) !important;
+  border-radius: var(--radius-md) !important;
+  background: color-mix(in srgb, var(--callout-color, var(--color-primary)) var(--tint), var(--color-canvas)) !important;
+  box-shadow: none !important;
+  margin: 24px 0;
+}
+.callout-note { --callout-color: var(--color-primary); }
+.callout-tip { --callout-color: var(--color-success); }
+.callout-warning, .callout-caution { --callout-color: var(--color-warning); }
+.callout-important { --callout-color: var(--color-danger); }
+.callout .callout-header { background: transparent !important; border: none !important; }
+.callout .callout-title-container { font-family: var(--font-sans); font-weight: 500; color: var(--color-ink); }
+.callout .callout-icon::before { filter: none; }
+body.article main.content .callout p,
+body.article main.content .callout li { font-size: 17px; }
+
+/* Margin footnotes / sidenotes */
+.column-margin, .margin-aside, aside.footnotes, .footnote-back {
+  font-size: 14px;
+  color: var(--color-body);
+}
+
+
+/* ─────────────── 11. Sidebar (track) & table of contents ─────────────── */
+#quarto-sidebar {
+  border-right: 1px solid var(--color-hairline);
+}
+#quarto-sidebar .sidebar-title {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+#quarto-sidebar .sidebar-link {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--color-body);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+#quarto-sidebar .sidebar-link:hover { background: var(--color-surface-raised); color: var(--color-ink); }
+#quarto-sidebar .sidebar-link.active {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+#quarto-sidebar .sidebar-item-section > .sidebar-item-container .sidebar-link { font-weight: 600; color: var(--color-ink); }
+#quarto-sidebar .sidebar-item-section .sidebar-section { border-left: 1px solid var(--color-hairline); margin-left: 10px; padding-left: 4px; }
+
+#toc-title {
+  font-family: var(--font-mono);
+  font-size: 12px !important;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+}
+#TOC { border-left: 1px solid var(--color-hairline); padding-left: 0; }
+#TOC .nav-link,
+#TOC a {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--color-muted);
+  padding: 4px 0 4px 12px;
+  margin-left: -1px;
+  border-left: 2px solid transparent;
+}
+#TOC .nav-link:hover, #TOC a:hover { color: var(--color-ink); }
+#TOC .nav-link.active {
+  color: var(--color-primary);
+  border-left-color: var(--color-primary);
+  font-weight: 500;
+}
+#TOC ul ul .nav-link { padding-left: 24px; }
+
+
+/* ─────────────── 12. End of article: follow card, citation, prev / next ─────────────── */
+.follow-card {
+  margin: 56px 0 8px;
+  padding: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-xl);
+}
+body.article main.content .follow-card p { font-family: var(--font-sans); }
+body.article main.content .follow-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+  color: var(--color-ink);
+  margin: 0 0 4px;
+}
+body.article main.content .follow-card-text { font-size: 14px; line-height: 1.5; margin: 0 0 16px; }
+.follow-card-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+#quarto-appendix.default { border-top: 1px solid var(--color-hairline); margin-top: 48px; padding-top: 8px; }
+#quarto-appendix .quarto-appendix-heading,
+#quarto-appendix h2 {
+  font-size: 21px;
+  letter-spacing: -0.015em;
+  border-bottom: none;
+}
+#quarto-appendix .quarto-appendix-contents div { opacity: 1 !important; } /* Quarto fades the cite-as wrapper to 0.9 */
+#quarto-appendix .quarto-appendix-secondary-label {
+  opacity: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+#quarto-appendix .quarto-appendix-contents { font-size: 14px; }
+
+.page-navigation {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 0;
+  border-top: none;
+}
+.page-navigation .nav-page { max-width: none; }
+.page-navigation .nav-page-next { text-align: right; }
+.page-navigation .nav-page a.pagination-link {
+  display: block;
+  height: 100%;
+  padding: 16px 20px;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  color: var(--color-ink);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  transition: box-shadow var(--dur-base) var(--ease-spring), border-color var(--dur-base) var(--ease-spring);
+}
+.page-navigation .nav-page a.pagination-link:hover { border-color: var(--color-hairline-strong); box-shadow: var(--shadow-lifted); }
+.page-navigation .nav-page a.pagination-link::before {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.page-navigation .nav-page-previous a.pagination-link::before { content: "← Previous"; }
+.page-navigation .nav-page-next a.pagination-link::before { content: "Next →"; }
+.page-navigation .bi { display: none; }
+
+
+/* ─────────────── 13. "All articles" listing ─────────────── */
+.quarto-listing-default .quarto-post {
+  padding: 20px 0;
+  margin: 0;
+  border-bottom: 1px solid var(--color-hairline);
+  gap: 24px;
+}
+.quarto-listing-default .quarto-post .listing-title {
+  font-size: 18px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+}
+.quarto-listing-default .quarto-post .listing-title a { color: var(--color-ink); }
+.quarto-listing-default .quarto-post:hover .listing-title a { color: var(--color-primary); }
+.quarto-listing-default .listing-description { font-size: 14px; line-height: 1.5; color: var(--color-body); }
+.quarto-listing-default .listing-categories { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.quarto-listing-default .metadata,
+.listing-date,
+.listing-reading-time {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted) !important;
+}
+
+.quarto-listing-filter input,
+.quarto-listing-filter .input-group-text,
+#listing-listing .input-group input {
+  border-color: var(--color-hairline-strong);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.quarto-listing-category-title {
+  opacity: 1;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.quarto-listing-category .category {
+  font-size: 14px;
+  color: var(--color-body);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+.quarto-listing-category .category:hover { background: var(--color-surface-raised); color: var(--color-ink); }
+.quarto-listing-category .category.active { background: var(--color-primary-subtle); color: var(--color-primary); font-weight: 500; }
+
+
+/* ─────────────── 14. Footer ─────────────── */
+.nav-footer {
+  border-top: 1px solid var(--color-hairline);
+  background: var(--color-canvas);
+  padding: 32px 24px;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+.nav-footer a, .nav-footer .nav-link { color: var(--color-muted); font-size: 14px; }
+.nav-footer a:hover, .nav-footer .nav-link:hover { color: var(--color-ink); }
+
+
+/* ─────────────── 15. Responsive ─────────────── */
+/* Mobile secondary bar (sidebar toggle): small "you are here" label, keep the real H1 */
+.quarto-secondary-nav .quarto-secondary-nav-title,
+.quarto-secondary-nav h1 {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.006em;
+  color: var(--color-muted) !important;
+  margin: 0;
+}
+@media (max-width: 991.98px) {
+  #title-block-header h1.title { display: block !important; }
+}
+
+@media (max-width: 767.98px) {
+  .home { padding: 0 16px; }
+  .home-hero { padding: 56px 0 48px; }
+  .home-section { padding: 48px 0; }
+  .section-title { font-size: 24px; }
+  .section-head-row { flex-direction: column; align-items: flex-start; }
+  .post-row { grid-template-columns: 1fr; gap: 6px; }
+  .page-navigation { grid-template-columns: 1fr; }
+  .page-navigation .nav-page-next { text-align: left; }
+  .author-card { flex-direction: column; }
+}
+
+@media (max-width: 575.98px) {
+  body.article main.content p,
+  body.article main.content li,
+  body.article main.content blockquote { font-size: 17px; line-height: 1.65; }
+  main.content h2 { font-size: 24px; margin-top: 44px; }
+  #title-block-header h1.title { font-size: 28px; }
+  .roadmap-step { grid-template-columns: 32px 1fr; gap: 14px; }
+  .roadmap-marker { width: 32px; height: 32px; font-size: 12px; }
+  .roadmap-step::before { left: 15px; top: 36px; }
+  .track-card { padding: 20px; }
+}
+
+@media (pointer: coarse) {
+  .btn-ui { min-height: 44px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
