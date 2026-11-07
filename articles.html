@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -41,18 +41,19 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2e068775a68eae7439ae6078688ce602.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-1d916a5a0402e498a8d8122650fbe021.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2e068775a68eae7439ae6078688ce602.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9d0b98409630913b1d50e561d6358891.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-d3458e9bcd20d9e3ce871a42e016c627.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-9d0b98409630913b1d50e561d6358891.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5dbc0d13c0483683ceb9ab8dcb2f319f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c1ab6f4bb475a839a9782a1a8b587a50.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-5dbc0d13c0483683ceb9ab8dcb2f319f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-262f89161de1e2d561c18d7f8e272d49.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-43bd931a43f4b828a13a804d409ecee8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-262f89161de1e2d561c18d7f8e272d49.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,12 +103,6 @@ ul.task-list li input[type="checkbox"] {
       window['quarto-listing-loaded']();
     }
   });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
   </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-X9RX470F8T"></script>
 
@@ -207,6 +202,8 @@ window.Quarto = {
 <meta property="og:image" content="https://gujurialekha.github.io/blog/images/profile.jpg">
 <meta property="og:site_name" content="Gujuri Alekha">
 <meta property="og:locale" content="en_US">
+<meta property="og:image:height" content="600">
+<meta property="og:image:width" content="600">
 <meta name="twitter:title" content="All articles – Gujuri Alekha">
 <meta name="twitter:description" content="Every published notebook, newest first. Filter by topic or search by keyword.">
 <meta name="twitter:image" content="https://gujurialekha.github.io/blog/images/profile.jpg">
@@ -215,7 +212,7 @@ window.Quarto = {
 <link rel="canonical" href="https://gujurialekha.github.io/blog/articles.html">
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -238,6 +235,7 @@ window.Quarto = {
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
         if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
           if (alternate) {
             toggle.classList.add("alternate");
           } else {
@@ -267,13 +265,19 @@ window.Quarto = {
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
       setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
         manageTransitions("body", false);
-        window.scrollTo(0, 1);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
         setTimeout(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, scrollY);
           manageTransitions("body", true);
         }, 40);
       }
@@ -367,6 +371,7 @@ window.Quarto = {
       // Read the current dark / light value
       let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
@@ -381,15 +386,14 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark" aria-label="Site">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Gujuri Alekha</span>
     </a>
   </div>
-            <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -445,8 +449,9 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
 </div>
+            <div id="quarto-search" class="" title="Search"></div>
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -457,7 +462,7 @@ window.Quarto = {
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
     <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(12)</span></div><div class="category" data-category="Q29udHJvbCUyMEZsb3c=">Control Flow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGF0YSUyMFN0cnVjdHVyZXM=">Data Structures <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGF0YSUyMFZpc3VhbGl6YXRpb24=">Data Visualization <span class="quarto-category-count">(2)</span></div><div class="category" data-category="RXhjZXB0aW9ucw==">Exceptions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RmlsZSUyMEhhbmRsaW5n">File Handling <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RmluYW5jZQ==">Finance <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Rmxhc2s=">Flask <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RnVuY3Rpb25z">Functions <span class="quarto-category-count">(1)</span></div><div class="category" data-category="T09Q">OOP <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UGFuZGFz">Pandas <span class="quarto-category-count">(1)</span></div><div class="category" data-category="UHl0aG9u">Python <span class="quarto-category-count">(12)</span></div><div class="category" data-category="UHl0aG9uJTIwQmFzaWNz">Python Basics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="U3RhdGlvbmFyaXR5">Stationarity <span class="quarto-category-count">(1)</span></div><div class="category" data-category="U3RhdGlzdGljcw==">Statistics <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VGltZSUyMFNlcmllcw==">Time Series <span class="quarto-category-count">(3)</span></div><div class="category" data-category="V2ViJTIwRGV2ZWxvcG1lbnQ=">Web Development <span class="quarto-category-count">(1)</span></div></div></div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -500,10 +505,10 @@ window.Quarto = {
     </div>
 </div>
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="VGltZSUyMFNlcmllcyUyQ0ZpbmFuY2UlMkNTdGF0aXN0aWNzJTJDUHl0aG9u" data-listing-date-sort="1792281600000" data-listing-file-modified-sort="1792593862204" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="489">
+<div class="quarto-post image-right" data-index="0" data-categories="VGltZSUyMFNlcmllcyUyQ0ZpbmFuY2UlMkNTdGF0aXN0aWNzJTJDUHl0aG9u" data-listing-date-sort="1792281600000" data-listing-file-modified-sort="1794020862712" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="489">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./time-series/03-white-noise-and-random-walks.html" class="no-external">White Noise and Random Walks in Time Series Analysis</a>
+<a href="./time-series/03-white-noise-and-random-walks.html" class="no-external-icon">White Noise and Random Walks in Time Series Analysis</a>
 </h3>
 <div class="listing-categories">
 
@@ -516,22 +521,24 @@ window.Quarto = {
 <div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">Python</div>
 
 </div>
-<div class="delink listing-description"><a href="./time-series/03-white-noise-and-random-walks.html" class="no-external">
+<div class="listing-description">
+<a href="./time-series/03-white-noise-and-random-walks.html" class="no-external-icon">
 <p>Learn how to identify White Noise and Random Walk processes in financial time series using visual, ACF/PACF, and Ljung-Box test diagnostics.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./time-series/03-white-noise-and-random-walks.html" class="no-external">
+<a href="./time-series/03-white-noise-and-random-walks.html" class="no-external-icon">
 <div class="listing-date">
 Oct 18, 2026
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="VGltZSUyMFNlcmllcyUyQ1N0YXRpb25hcml0eSUyQ1B5dGhvbg==" data-listing-date-sort="1791676800000" data-listing-file-modified-sort="1792593862203" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="859">
+<div class="quarto-post image-right" data-index="1" data-categories="VGltZSUyMFNlcmllcyUyQ1N0YXRpb25hcml0eSUyQ1B5dGhvbg==" data-listing-date-sort="1791676800000" data-listing-file-modified-sort="1794020862710" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="859">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./time-series/02-stationarity.html" class="no-external">Stationarity in Time Series Analysis</a>
+<a href="./time-series/02-stationarity.html" class="no-external-icon">Stationarity in Time Series Analysis</a>
 </h3>
 <div class="listing-categories">
 
@@ -542,22 +549,24 @@ Oct 18, 2026
 <div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">Python</div>
 
 </div>
-<div class="delink listing-description"><a href="./time-series/02-stationarity.html" class="no-external">
+<div class="listing-description">
+<a href="./time-series/02-stationarity.html" class="no-external-icon">
 <p>Learn how to detect non-stationarity in time series using statistical tests and apply techniques like differencing, transformations, and detrending to achieve stationarity.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./time-series/02-stationarity.html" class="no-external">
+<a href="./time-series/02-stationarity.html" class="no-external-icon">
 <div class="listing-date">
 Oct 11, 2026
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="VGltZSUyMFNlcmllcyUyQ0ZpbmFuY2UlMkNEYXRhJTIwVmlzdWFsaXphdGlvbiUyQ1B5dGhvbg==" data-listing-date-sort="1791072000000" data-listing-file-modified-sort="1792593862195" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="523">
+<div class="quarto-post image-right" data-index="2" data-categories="VGltZSUyMFNlcmllcyUyQ0ZpbmFuY2UlMkNEYXRhJTIwVmlzdWFsaXphdGlvbiUyQ1B5dGhvbg==" data-listing-date-sort="1791072000000" data-listing-file-modified-sort="1794020862703" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="523">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./time-series/01-time-series-analysis.html" class="no-external">Time Series Analysis and Decomposition</a>
+<a href="./time-series/01-time-series-analysis.html" class="no-external-icon">Time Series Analysis and Decomposition</a>
 </h3>
 <div class="listing-categories">
 
@@ -570,22 +579,24 @@ Oct 11, 2026
 <div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9u'); return false;">Python</div>
 
 </div>
-<div class="delink listing-description"><a href="./time-series/01-time-series-analysis.html" class="no-external">
+<div class="listing-description">
+<a href="./time-series/01-time-series-analysis.html" class="no-external-icon">
 <p>Learn the fundamentals of time series forecasting, additive vs.&nbsp;multiplicative models, and robust STL decomposition using NIFTY 50 data.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./time-series/01-time-series-analysis.html" class="no-external">
+<a href="./time-series/01-time-series-analysis.html" class="no-external-icon">
 <div class="listing-date">
 Oct 4, 2026
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="UHl0aG9uJTJDUHl0aG9uJTIwQmFzaWNz" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="459">
+<div class="quarto-post image-right" data-index="3" data-categories="UHl0aG9uJTJDUHl0aG9uJTIwQmFzaWNz" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="459">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/01-python-basics-variables-and-data-types.html" class="no-external">Python Basics: Variables and Data Types</a>
+<a href="./python/01-python-basics-variables-and-data-types.html" class="no-external-icon">Python Basics: Variables and Data Types</a>
 </h3>
 <div class="listing-categories">
 
@@ -594,22 +605,24 @@ Oct 4, 2026
 <div class="listing-category" onclick="window.quartoListingCategory('UHl0aG9uJTIwQmFzaWNz'); return false;">Python Basics</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/01-python-basics-variables-and-data-types.html" class="no-external">
+<div class="listing-description">
+<a href="./python/01-python-basics-variables-and-data-types.html" class="no-external-icon">
 <p>An introduction to Python, its interpreters, and core data types: numbers, strings, lists, tuples, dictionaries and basic operators.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/01-python-basics-variables-and-data-types.html" class="no-external">
+<a href="./python/01-python-basics-variables-and-data-types.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="UHl0aG9uJTJDQ29udHJvbCUyMEZsb3c=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="248">
+<div class="quarto-post image-right" data-index="4" data-categories="UHl0aG9uJTJDQ29udHJvbCUyMEZsb3c=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="248">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/02-python-control-flow.html" class="no-external">Python Control Flow: if, elif, else and Loops</a>
+<a href="./python/02-python-control-flow.html" class="no-external-icon">Python Control Flow: if, elif, else and Loops</a>
 </h3>
 <div class="listing-categories">
 
@@ -618,22 +631,24 @@ Oct 20, 2024
 <div class="listing-category" onclick="window.quartoListingCategory('Q29udHJvbCUyMEZsb3c='); return false;">Control Flow</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/02-python-control-flow.html" class="no-external">
+<div class="listing-description">
+<a href="./python/02-python-control-flow.html" class="no-external-icon">
 <p>Learn how Python makes decisions and repeats work with if, elif and else statements, for and while loops, and break and continue.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/02-python-control-flow.html" class="no-external">
+<a href="./python/02-python-control-flow.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="UHl0aG9uJTJDRnVuY3Rpb25z" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="170">
+<div class="quarto-post image-right" data-index="5" data-categories="UHl0aG9uJTJDRnVuY3Rpb25z" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="170">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/03-python-functions-and-modules.html" class="no-external">Python Functions and Modules</a>
+<a href="./python/03-python-functions-and-modules.html" class="no-external-icon">Python Functions and Modules</a>
 </h3>
 <div class="listing-categories">
 
@@ -642,22 +657,24 @@ Oct 20, 2024
 <div class="listing-category" onclick="window.quartoListingCategory('RnVuY3Rpb25z'); return false;">Functions</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/03-python-functions-and-modules.html" class="no-external">
+<div class="listing-description">
+<a href="./python/03-python-functions-and-modules.html" class="no-external-icon">
 <p>Define and call Python functions, pass arguments, return values, and import modules and libraries such as math.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/03-python-functions-and-modules.html" class="no-external">
+<a href="./python/03-python-functions-and-modules.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="UHl0aG9uJTJDRGF0YSUyMFN0cnVjdHVyZXM=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="306">
+<div class="quarto-post image-right" data-index="6" data-categories="UHl0aG9uJTJDRGF0YSUyMFN0cnVjdHVyZXM=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="306">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/04-python-data-structures-and-collections.html" class="no-external">Python Data Structures: Lists, Sets and Comprehensions</a>
+<a href="./python/04-python-data-structures-and-collections.html" class="no-external-icon">Python Data Structures: Lists, Sets and Comprehensions</a>
 </h3>
 <div class="listing-categories">
 
@@ -666,22 +683,24 @@ Oct 20, 2024
 <div class="listing-category" onclick="window.quartoListingCategory('RGF0YSUyMFN0cnVjdHVyZXM='); return false;">Data Structures</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/04-python-data-structures-and-collections.html" class="no-external">
+<div class="listing-description">
+<a href="./python/04-python-data-structures-and-collections.html" class="no-external-icon">
 <p>Work with Python lists, tuples, dictionaries, sets and frozensets, write list comprehensions, and sort and search collections.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/04-python-data-structures-and-collections.html" class="no-external">
+<a href="./python/04-python-data-structures-and-collections.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="UHl0aG9uJTJDRmlsZSUyMEhhbmRsaW5n" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="241">
+<div class="quarto-post image-right" data-index="7" data-categories="UHl0aG9uJTJDRmlsZSUyMEhhbmRsaW5n" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="241">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/05-python-file-handling.html" class="no-external">Python File Handling: Reading and Writing Files</a>
+<a href="./python/05-python-file-handling.html" class="no-external-icon">Python File Handling: Reading and Writing Files</a>
 </h3>
 <div class="listing-categories">
 
@@ -690,22 +709,24 @@ Oct 20, 2024
 <div class="listing-category" onclick="window.quartoListingCategory('RmlsZSUyMEhhbmRsaW5n'); return false;">File Handling</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/05-python-file-handling.html" class="no-external">
+<div class="listing-description">
+<a href="./python/05-python-file-handling.html" class="no-external-icon">
 <p>Read and write text files in Python, choose the right file mode, and use the with statement to close files safely.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/05-python-file-handling.html" class="no-external">
+<a href="./python/05-python-file-handling.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="UHl0aG9uJTJDRXhjZXB0aW9ucw==" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="190">
+<div class="quarto-post image-right" data-index="8" data-categories="UHl0aG9uJTJDRXhjZXB0aW9ucw==" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="190">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/06-python-error-handling-and-exceptions.html" class="no-external">Python Exceptions: try, except and finally</a>
+<a href="./python/06-python-error-handling-and-exceptions.html" class="no-external-icon">Python Exceptions: try, except and finally</a>
 </h3>
 <div class="listing-categories">
 
@@ -714,22 +735,24 @@ Oct 20, 2024
 <div class="listing-category" onclick="window.quartoListingCategory('RXhjZXB0aW9ucw=='); return false;">Exceptions</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/06-python-error-handling-and-exceptions.html" class="no-external">
+<div class="listing-description">
+<a href="./python/06-python-error-handling-and-exceptions.html" class="no-external-icon">
 <p>Handle errors in Python with try, except and finally, raise custom exceptions, and understand the exception class hierarchy.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/06-python-error-handling-and-exceptions.html" class="no-external">
+<a href="./python/06-python-error-handling-and-exceptions.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="UHl0aG9uJTJDT09Q" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="402">
+<div class="quarto-post image-right" data-index="9" data-categories="UHl0aG9uJTJDT09Q" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="402">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/07-python-object-oriented-programming.html" class="no-external">Object-Oriented Programming (OOP) in Python</a>
+<a href="./python/07-python-object-oriented-programming.html" class="no-external-icon">Object-Oriented Programming (OOP) in Python</a>
 </h3>
 <div class="listing-categories">
 
@@ -738,22 +761,24 @@ Oct 20, 2024
 <div class="listing-category" onclick="window.quartoListingCategory('T09Q'); return false;">OOP</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/07-python-object-oriented-programming.html" class="no-external">
+<div class="listing-description">
+<a href="./python/07-python-object-oriented-programming.html" class="no-external-icon">
 <p>Learn classes and objects, inheritance, polymorphism, encapsulation, and method overriding and overloading in Python.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/07-python-object-oriented-programming.html" class="no-external">
+<a href="./python/07-python-object-oriented-programming.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="UHl0aG9uJTJDUGFuZGFzJTJDRGF0YSUyMFZpc3VhbGl6YXRpb24=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="302">
+<div class="quarto-post image-right" data-index="10" data-categories="UHl0aG9uJTJDUGFuZGFzJTJDRGF0YSUyMFZpc3VhbGl6YXRpb24=" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="302">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/08-python-working-with-data.html" class="no-external">Working with Data in Python: CSV, JSON and Pandas</a>
+<a href="./python/08-python-working-with-data.html" class="no-external-icon">Working with Data in Python: CSV, JSON and Pandas</a>
 </h3>
 <div class="listing-categories">
 
@@ -764,22 +789,24 @@ Oct 20, 2024
 <div class="listing-category" onclick="window.quartoListingCategory('RGF0YSUyMFZpc3VhbGl6YXRpb24='); return false;">Data Visualization</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/08-python-working-with-data.html" class="no-external">
+<div class="listing-description">
+<a href="./python/08-python-working-with-data.html" class="no-external-icon">
 <p>Read and write CSV, JSON and XML data in Python, manipulate it with pandas, and visualize it with Matplotlib and Seaborn.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/08-python-working-with-data.html" class="no-external">
+<a href="./python/08-python-working-with-data.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="UHl0aG9uJTJDV2ViJTIwRGV2ZWxvcG1lbnQlMkNGbGFzaw==" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1792593862190" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="296">
+<div class="quarto-post image-right" data-index="11" data-categories="UHl0aG9uJTJDV2ViJTIwRGV2ZWxvcG1lbnQlMkNGbGFzaw==" data-listing-date-sort="1729382400000" data-listing-file-modified-sort="1794020862697" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="296">
 <div class="body">
 <h3 class="no-anchor listing-title">
-<a href="./python/09-python-web-development.html" class="no-external">Python Web Development: Flask and Django Basics</a>
+<a href="./python/09-python-web-development.html" class="no-external-icon">Python Web Development: Flask and Django Basics</a>
 </h3>
 <div class="listing-categories">
 
@@ -790,12 +817,14 @@ Oct 20, 2024
 <div class="listing-category" onclick="window.quartoListingCategory('Rmxhc2s='); return false;">Flask</div>
 
 </div>
-<div class="delink listing-description"><a href="./python/09-python-web-development.html" class="no-external">
+<div class="listing-description">
+<a href="./python/09-python-web-development.html" class="no-external-icon">
 <p>An introduction to Python web frameworks Flask and Django: routing, templates, databases, and HTTP requests and responses.</p>
-</a></div>
+</a>
+</div>
 </div>
 <div class="metadata">
-<a href="./python/09-python-web-development.html" class="no-external">
+<a href="./python/09-python-web-development.html" class="no-external-icon">
 <div class="listing-date">
 Oct 20, 2024
 </div>
@@ -809,15 +838,50 @@ Oct 20, 2024
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
       const i = window.document.createElement("i");
       i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
     }
     setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
@@ -896,7 +960,8 @@ Oct 20, 2024
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -905,8 +970,69 @@ Oct 20, 2024
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -920,6 +1046,7 @@ Oct 20, 2024
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -1082,44 +1209,54 @@ Oct 20, 2024
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -1217,6 +1354,9 @@ Oct 20, 2024
       }
     }
   });
+  </script>
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
   </script>
 </div> <!-- /content -->
 <footer class="footer">
